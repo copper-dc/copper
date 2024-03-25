@@ -1,6 +1,0 @@
-{
-    "terminal.integrated.ignoreProcessNames": [
-        "oh-my-posh",
-        "bash"
-    ]
-}
