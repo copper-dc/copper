@@ -34,9 +34,8 @@ Work In Progress ^^
 
 ## Authors
 
-- [@mdxabu](https://github.com/mdxabu)
 - [@m4-rk](https://github.com/m4-rk)
-
+- [@mdxabu](https://github.com/mdxabu)
 
 ## Feedback
 
