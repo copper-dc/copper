@@ -21,9 +21,9 @@ async def on_ready():
 async def on_message(message):
     # Check if the message starts with '!hello'
     for string in strings:
-        if message.content.startswith(string):
+        if message.content.startswith(string.lower()):
             if message.author != bot.user:
-                await message.channel.send(f'{string} {message.author.mention}!')
+                await message.channel.send(f'{string.capitalize()} {message.author.mention}!')
             break
         # Send a response mentioning the user who sent the message
         
