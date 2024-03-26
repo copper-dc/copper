@@ -1,22 +1,34 @@
 import discord
 from discord.ext import commands
 
-# Define intents
-intents = discord.Intents.default()
-intents.messages = True  # Enable the message intent
+global strings
+strings = ["hello","hi","yahallo","yo","yooo","good morning","good night"]
 
-# Define the command prefix
+# Define the intents your bot will use
+intents = discord.Intents.default()
+intents.messages = True  # Enable message events
+
+# Create a bot instance with intents
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# Event handler for when the bot is ready
+# Define event for when the bot is ready
 @bot.event
 async def on_ready():
-    print(f'{bot.user} has connected to Discord!')
+    print(f'Logged in as {bot.user.name}')
 
-# Define a simple command
-@bot.command()
-async def hello(ctx):
-    await ctx.send('Hello! I am a Discord bot.')
+# Define event for when a message is received
+@bot.event
+async def on_message(message):
+    # Check if the message starts with '!hello'
+    for string in strings:
+        if message.content.startswith(string):
+            if message.author != bot.user:
+                await message.channel.send(f'{string} {message.author.mention}!')
+            break
+        # Send a response mentioning the user who sent the message
+        
+
+
 
 # Run the bot with your token
-bot.run("")
+bot.run('')
