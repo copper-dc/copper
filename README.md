@@ -44,5 +44,5 @@ If you have any feedback or queries, please reach out to us at aikobotdiscord@pr
 
 ## License
 
-[GPL-3.0](https://github.com/Aik0B0t/Aiko?tab=GPL-3.0-1-ov-file)
+Aiko is open source software under [GPL-3.0](https://github.com/Aik0B0t/Aiko?tab=GPL-3.0-1-ov-file) license
 
