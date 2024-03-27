@@ -4,6 +4,8 @@ from typing import Final
 from discord.ext import commands
 from discord import Client, Message
 from dotenv import load_dotenv
+from discord import app_commands
+
 
 
 load_dotenv()
@@ -20,19 +22,34 @@ intents.message_content = True  # Enable message events
 # Create a bot instance with intents
 # bot: Client = Client(intents=intents) <- this or below one will do
 bot = commands.Bot(command_prefix='/', intents=intents)
+# tree = app_commands.CommandTree(bot)
 
+# @tree.command(
+#     name="hello",
+#     description="My first application Command",
+#     guild=discord.Object(id=12417128931)
+# )
+async def first_command(interaction):
+    await interaction.response.send_message("Hello!")
 
-@bot.hybrid_command #apparently slash commad area according to a ytber
-async def aiko(cxt: commands.Context):
-    await cxt.send("nya?")
 
 
 # Define event for when the bot is ready
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
-    await bot.tree.sync() #syncing slash commands? something like that
+    try:
+        synced = await bot.tree.sync() #slash tree
+        print(f"synced {len(synced)} command(s)")
+    #syncing slash commands? something like that
+    except Exception as e:
+        print(e)
 
+# slash command starts
+@bot.tree.command(name = "hello")
+async def hello(interaction: discord.Integration):
+    await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
+#slash command ends
 # Define event for when a message is received
 @bot.event
 async def on_message(message):
