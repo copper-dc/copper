@@ -5,8 +5,9 @@ from discord.ext import commands
 from discord import Client, Message
 from dotenv import load_dotenv
 from discord import app_commands
-
-
+import aiohttp
+import asyncio
+import json
 
 load_dotenv()
 
@@ -26,9 +27,13 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 async def first_command(interaction):
     await interaction.response.send_message("Hello!")
 
+async def fetch_json(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            data = await response.json()
+            return data
 
 
-# Define event for when the bot is ready
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name}')
@@ -43,6 +48,34 @@ async def on_ready():
 @bot.tree.command(name = "hello")
 async def hello(interaction: discord.Integration):
     await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
+
+@bot.tree.command(name="neko")
+async def neko(interaction: discord.Integration):
+    url = 'https://api.waifu.pics/sfw/neko'
+    data = await fetch_json(url)
+    url = data['url']
+    await interaction.response.send_message(url)
+
+@bot.tree.command(name="waifu")
+async def waifu(interaction: discord.Integration):
+    url = 'https://api.waifu.pics/sfw/waifu'
+    data = await fetch_json(url)
+    url = data['url']
+    await interaction.response.send_message(url)
+
+@bot.tree.command(name="shinobu")
+async def shinobu(interaction: discord.Integration):
+    url = 'https://api.waifu.pics/sfw/shinobu'
+    data = await fetch_json(url)
+    url = data['url']
+    await interaction.response.send_message(url)
+
+@bot.tree.command(name="megumin")
+async def megumin(interaction: discord.Integration):
+    url = 'https://api.waifu.pics/sfw/megumin'
+    data = await fetch_json(url)
+    url = data['url']
+    await interaction.response.send_message(url)
 
 @bot.tree.command(name = "say")
 @app_commands.describe(describe = "What should i say?")
