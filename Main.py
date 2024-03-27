@@ -12,6 +12,7 @@ load_dotenv()
 
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
 
+
 global strings
 strings = ["hello","hi","yahallo","yo","yooo","good morning","good night","good afternoon","good evening","bye","goodbye","cya"]
 
@@ -19,16 +20,9 @@ strings = ["hello","hi","yahallo","yo","yooo","good morning","good night","good 
 intents = discord.Intents.default()
 intents.message_content = True  # Enable message events
 
-# Create a bot instance with intents
-# bot: Client = Client(intents=intents) <- this or below one will do
-bot = commands.Bot(command_prefix='/', intents=intents)
-# tree = app_commands.CommandTree(bot)
 
-# @tree.command(
-#     name="hello",
-#     description="My first application Command",
-#     guild=discord.Object(id=12417128931)
-# )
+bot = commands.Bot(command_prefix='/', intents=intents)
+
 async def first_command(interaction):
     await interaction.response.send_message("Hello!")
 
@@ -53,7 +47,9 @@ async def hello(interaction: discord.Integration):
 @bot.tree.command(name = "say")
 @app_commands.describe(describe = "What should i say?")
 async def say(interaction: discord.Integration, describe: str):
-    await interaction.response.send_message(f"{interaction.user.name} said: `{describe}`")
+    await interaction.response.send_message(f"{interaction.user.mention} said: `{describe}`")
+
+
 
 #slash command ends
 # Define event for when a message is received
@@ -72,12 +68,6 @@ async def on_message(message):
                 await message.channel.send(f'{string.capitalize()} {message.author.mention}!')
             break
         # Send a response mentioning the user who sent the message
-        
-        
-
-
-
-        
         
 
 
