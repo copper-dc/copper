@@ -49,6 +49,12 @@ async def on_ready():
 @bot.tree.command(name = "hello")
 async def hello(interaction: discord.Integration):
     await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
+
+@bot.tree.command(name = "say")
+@app_commands.describe(describe = "What should i say?")
+async def say(interaction: discord.Integration, describe: str):
+    await interaction.response.send_message(f"{interaction.user.name} said: `{describe}`")
+
 #slash command ends
 # Define event for when a message is received
 @bot.event
