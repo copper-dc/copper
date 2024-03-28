@@ -29,7 +29,7 @@ Work In Progress ^^
 
 ## Contributing
 
-Work In Progress ^^
+Check out [CONTRIBUTING.md](https://github.com/Aik0B0t/Aiko/blob/main/CONTRIBUTING.md) for details
 
 
 ## Authors

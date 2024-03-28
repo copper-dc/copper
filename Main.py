@@ -83,14 +83,14 @@ async def say(interaction: discord.Integration, describe: str):
     await interaction.response.send_message(f"{interaction.user.mention} said: `{describe}`")
 
 
-
 #slash command ends
+
 # Define event for when a message is received
 @bot.event
 async def on_message(message):
     # Check if the message starts with strings[]
     for string in strings:
-        if ((message.content.startswith("?"))): #private 
+        if ((message.content.startswith("?"))): # response in private 
                 if message.author != bot.user:
                  await message.author.send(f"{message.content} {message.author.mention}!")
                  break
