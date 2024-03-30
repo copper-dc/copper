@@ -1,26 +1,44 @@
+# Contributing to Aiko Discord Bot
 
-# 1. Introduction
-**Welcome!** First off, thank you for contributing to the further development of Aiko. We're always looking for new ways to improve our project and we appreciate any help you can give us.
+Thank you for considering contributing to Aiko Discord Bot! We appreciate any contributions that improve the functionality, performance, or usability of the bot.
 
-### 1.1 Why do these guidelines exist?
-Aiko is an open source project. This means that each and every one of the developers and contributors who have helped make Aiko what it is today have done so by volunteering their time and effort. It takes a lot of time to coordinate and organize issues and new features and to review and test pull requests. By following these guidelines you will help the developers streamline the contribution process and save them time. In doing so we hope to get back to each and every issue and pull request in a timely manner.
+## Code of Conduct
 
-### 1.2 What kinds of contributions are we looking for?
-We love receiving contributions from our community. Any assistance you can provide with regards to bug fixes, feature enhancements, and documentation is more than welcome.
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-# 2. Ground Rules
-1. Ensure all Python features used in contributions exist and work in Python 3.10 and above.
-2. Create new tests for code you add or bugs you fix. It helps us help you by making sure we don't accidentally break anything :grinning:
-3. Create any issues for new features you'd like to implement and explain why this feature is useful to everyone and not just you personally.
-4. Don't add new cogs unless specifically given approval in an issue discussing said cog idea.
-5. Be welcoming to newcomers and encourage diverse new contributors from all backgrounds. See [Python Community Code of Conduct](https://www.python.org/psf/codeofconduct/).
+## How Can I Contribute?
 
-# 3. Your First Contribution
-Unsure of how to get started contributing to Aiko? Please take a look at the Issues section of this repo and sort by the following labels:
+### Reporting Bugs
 
-* beginner - issues that can normally be fixed in just a few lines of code and maybe a test or two.
-* help-wanted - issues that are currently unassigned to anyone and may be a bit more involved/complex than issues tagged with beginner.
+If you encounter a bug with Aiko, please help us by [opening a new issue](https://github.com/Aik0B0t/Aiko/issues) on our GitHub repository. Be sure to include detailed information about how to reproduce the bug so that we can quickly address it.
 
-**Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github)
+### Suggesting Enhancements
 
-At this point you're ready to start making changes. Feel free to ask for help; everyone was a beginner at some point!
+If you have an idea for how to improve Aiko or if you'd like to request a new feature, please [open a new issue](https://github.com/Aik0B0t/Aiko/issues) on GitHub and provide a clear description of your suggestion. We welcome all constructive feedback and ideas for improvement.
+
+### Contributing Code
+
+We welcome contributions from the community! If you'd like to contribute code to Aiko, please follow these steps:
+
+1. Fork the repository on GitHub.
+2. Clone your forked repository to your local machine.
+3. Create a new branch for your changes (`git checkout -b feature/your-feature-name`).
+4. Make your changes and ensure that they adhere to the [style guide](#style-guide).
+5. Commit your changes (`git commit -am 'Add new feature'`).
+6. Push to the branch (`git push origin feature/your-feature-name`).
+7. [Open a pull request](https://github.com/Aik0B0t/Aiko/pulls) on GitHub and provide a detailed description of your changes.
+
+## Style Guide
+
+When contributing code to Aiko, please follow these style guidelines:
+
+- Use consistent indentation (spaces or tabs) throughout the codebase.
+- Write descriptive commit messages in the imperative mood (e.g., "Add feature" instead of "Added feature").
+- Follow existing naming conventions for variables, functions, and classes.
+- Write clear and concise code with comments where necessary to explain complex logic.
+
+## License
+
+By contributing to Aiko, you agree that your contributions will be licensed under the [GNU General Public License v3.0](LICENSE). This license ensures that the code remains free and open-source for everyone to use and modify.
+
+Thank you for contributing to Aiko Discord Bot!
