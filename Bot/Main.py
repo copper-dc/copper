@@ -60,7 +60,7 @@ async def megumin(interaction: discord.Integration):
 @bot.tree.command(name = "say",description='Say something for the world will ya')
 @app_commands.describe(describe = "What should i say?")
 async def say(interaction: discord.Integration, describe: str):
-    await slash_commands.say(interaction)
+    await slash_commands.say(interaction,describe)
 
 
 #slash command ends
