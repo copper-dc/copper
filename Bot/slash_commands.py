@@ -2,40 +2,63 @@ import aiohttp
 import discord
 
 
-waifuBaseURL = "https://api.waifu.pics/"
+waifuBaseURL = "https://api.waifu.pics/sfw/"
 
 try:
     async def hello(interaction: discord.Integration):
         await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
 
 
-    async def neko(interaction: discord.Integration):
-        url = 'https://api.waifu.pics/sfw/neko'
-        data = await fetch_json(url)
-        url = data['url']
-        await interaction.response.send_message(url)
+    # async def neko(interaction: discord.Integration):
+    #     url = 'https://api.waifu.pics/sfw/neko'
+    #     data = await fetch_json(url)
+    #     url = data['url']
+    #     await interaction.response.send_message(url)
 
 
-    async def waifu(interaction: discord.Integration):
-        url = 'https://api.waifu.pics/sfw/waifu'
-        data = await fetch_json(url)
-        url = data['url']
-        await interaction.response.send_message(url)
+    # async def waifu(interaction: discord.Integration):
+    #     url = 'https://api.waifu.pics/sfw/waifu'
+    #     data = await fetch_json(url)
+    #     url = data['url']
+    #     await interaction.response.send_message(url)
 
 
-    async def shinobu(interaction: discord.Integration):
-        url = 'https://api.waifu.pics/sfw/shinobu'
-        data = await fetch_json(url)
-        url = data['url']
-        await interaction.response.send_message(url)
+    # async def shinobu(interaction: discord.Integration):
+    #     url = 'https://api.waifu.pics/sfw/shinobu'
+    #     data = await fetch_json(url)
+    #     url = data['url']
+    #     await interaction.response.send_message(url)
 
 
-    async def megumin(interaction: discord.Integration):
-        url = 'https://api.waifu.pics/sfw/megumin'
-        data = await fetch_json(url)
-        url = data['url']
-        await interaction.response.send_message(url)
-    
+    # async def megumin(interaction: discord.Integration):
+    #     url = 'https://api.waifu.pics/sfw/megumin'
+    #     data = await fetch_json(url)
+    #     url = data['url']
+    #     await interaction.response.send_message(url)
+        
+    async def slashgirls(interaction:discord.Integration, choices: str):
+        if (choices.value == 'neko'):
+            updatedURL = waifuBaseURL+"neko"
+            data = await fetch_json(updatedURl)
+            url = data['url']
+            await interaction.response.send_message(url)
+        elif (choices.value == 'waifu'):
+            updatedURL = waifuBaseURL+"waifu"
+            data = await fetch_json(updatedURL)
+            url = data['url']
+            await interaction.response.send_message(url)
+        elif (choices.value=='megumin'):
+            updatedURL = waifuBaseURL+"megumin"
+            data = await fetch_json(updatedURL)
+            url = data['url']
+            await interaction.response.send_message(url)
+        elif (choices.value == 'shinobu'):
+            updatedURL = waifuBaseURL+"shinobu"
+            data = await fetch_json(updatedURL)
+            url = data['url']
+            await interaction.response.send_message(url)
+        await interaction.response.send_message("Haha, Enjoy your s(f)lash girl!")
+
     async def rps(interaction:discord.Integration, choices: str):
         if (choices.value == 'rock'):
             counter = 'paper'
