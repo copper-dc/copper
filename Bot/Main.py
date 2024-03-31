@@ -41,27 +41,6 @@ async def on_ready():
 async def hello(interaction: discord.Integration):
     await slash_commands.hello(interaction)
 
-# @bot.tree.command(name="neko",description='For furries- i mean catgril lovers; Generates random catgirl image')
-# async def neko(interaction: discord.Integration):
-#     await slash_commands.neko(interaction)
-
-# @bot.tree.command(name="waifu",description='Generates random waifu image.')
-# async def waifu(interaction: discord.Integration):
-#     await slash_commands.waifu(interaction)
-
-# @bot.tree.command(name="shinobu",description='For shinobu shrimps; Generates random shinobu image')
-# async def shinobu(interaction: discord.Integration):
-#     await slash_commands.shinobu(interaction)
-
-# @bot.tree.command(name="megumin",description='For megumin shrimps; Generates random megumin image')
-# async def megumin(interaction: discord.Integration):
-#     await slash_commands.megumin(interaction)
-
-# @bot.tree.command(name = "say",description='Say something for the world will ya')
-# @app_commands.describe(describe = "What should i say?")
-# async def say(interaction: discord.Integration, describe: str):
-#     await slash_commands.say(interaction,describe)
-
 @bot.tree.command(name="slashgirls",description='Slashgirls? More like smashgirls; Generates random waifu image of your choice.')
 @app_commands.choices(choices=[
     app_commands.Choice(name="Waifu", value="waifu"),
