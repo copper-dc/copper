@@ -1,8 +1,10 @@
 import aiohttp
 import discord
+import random
 
 
 waifuBaseURL = "https://api.waifu.pics/sfw/"
+RPS = ['rock','paper','scissors']
 
 try:
     async def hello(interaction: discord.Integration):
@@ -39,7 +41,7 @@ try:
     async def slashgirls(interaction:discord.Integration, choices: str):
         if (choices.value == 'neko'):
             updatedURL = waifuBaseURL+"neko"
-            data = await fetch_json(updatedURl)
+            data = await fetch_json(updatedURL)
             url = data['url']
             await interaction.response.send_message(url)
         elif (choices.value == 'waifu'):
@@ -60,13 +62,38 @@ try:
         await interaction.response.send_message("Haha, Enjoy your s(f)lash girl!")
 
     async def rps(interaction:discord.Integration, choices: str):
-        if (choices.value == 'rock'):
-            counter = 'paper'
+        bot_choice = random.choice(RPS)
+        if (choices.value == bot_choice):
+            counter = 'That\'s a tie! Once more!!.'
+            await interaction.response.send_message(f"{bot_choice}. {counter}")
+        elif (choices.value == 'rock'):
+            if bot_choice == 'paper':
+                counter = 'Hehe, I win, Better luck next time~'
+                await interaction.response.send_message(f"{bot_choice}. {counter}")
+            else:
+                counter = 'Aw... , Lucky you!'
+                await interaction.response.send_message(f"{bot_choice}. {counter}")
+
         elif (choices.value == 'paper'):
-            counter = 'scissors'
+            if bot_choice == 'scissors':
+                counter = 'Hehe, I win, Better luck next time~'
+                await interaction.response.send_message(f"{bot_choice}. {counter}")
+            else:
+                counter = 'Aw... , Lucky you!'
+                await interaction.response.send_message(f"{bot_choice}. {counter}")
+
+        elif (choices.value == 'scissors'):
+            if bot_choice == 'rock':
+                counter = 'Hehe, I win, Better luck next time~'
+                await interaction.response.send_message(f"{bot_choice}. {counter}")
+            else:
+                counter = 'Aw... , Lucky you!'
+                await interaction.response.send_message(f"{bot_choice}. {counter}")
+        
+            
         else:
-            counter = 'rock'
-        await interaction.response.send_message(counter)
+            counter = 'Try again'
+            await interaction.response.send_message(counter)
 
 
     async def say(interaction: discord.Integration, describe: str):
