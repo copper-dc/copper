@@ -62,10 +62,10 @@ async def hello(interaction: discord.Integration):
 # async def say(interaction: discord.Integration, describe: str):
 #     await slash_commands.say(interaction,describe)
 
-@bot.tree.command(name="slashgirls")
+@bot.tree.command(name="slashgirls",description='Slashgirls? More like smashgirls; Generates random waifu image of your choice.')
 @app_commands.choices(choices=[
     app_commands.Choice(name="Waifu", value="waifu"),
-    app_commands.Choice(name="Neko", value="neku"),
+    app_commands.Choice(name="Neko", value="neko"),
     app_commands.Choice(name="Shinobu", value="shinobu"),
     app_commands.Choice(name="Megumin", value="megumin"),
 ]
@@ -73,7 +73,7 @@ async def hello(interaction: discord.Integration):
 async def slashgirls(interaction:discord.Integration,choices: app_commands.Choice[str]):
     await slash_commands.slashgirls(interaction,choices)
 
-@bot.tree.command(name="rps")
+@bot.tree.command(name="rps",description='Feeling lucky? Try Rock/Paper/Scissors with Aiko.')
 @app_commands.choices(choices=[
     app_commands.Choice(name="Rock", value="rock"),
     app_commands.Choice(name="Paper", value="paper"),
