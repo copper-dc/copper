@@ -62,6 +62,15 @@ async def megumin(interaction: discord.Integration):
 async def say(interaction: discord.Integration, describe: str):
     await slash_commands.say(interaction,describe)
 
+@bot.tree.command(name="rps")
+@app_commands.choices(choices=[
+    app_commands.Choice(name="Rock", value="rock"),
+    app_commands.Choice(name="Paper", value="paper"),
+    app_commands.Choice(name="Scissors", value="scissors"),
+]
+)
+async def rps(interaction:discord.Integration,choices: app_commands.Choice[str]):
+    await slash_commands.rps(interaction,choices)
 
 #slash command ends
 
