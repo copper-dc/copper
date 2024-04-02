@@ -32,6 +32,12 @@ try:
             url = data['url']
             await interaction.response.send_message(url)
 
+
+# Games in Slash Commands
+#  1. RPS (Rock, Paper and Scissor)
+#  2. Gamble
+#  3. Slot Machine
+            
     async def rps(interaction:discord.Integration, choices: str):
         bot_choice = random.choice(RPS)
         if (choices.value == bot_choice):

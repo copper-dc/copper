@@ -2,7 +2,6 @@ import discord
 import os
 from typing import Final
 from discord.ext import commands
-from discord import Client, Message
 from dotenv import load_dotenv
 from discord import app_commands
 import slash_commands
@@ -41,7 +40,7 @@ async def on_ready():
 async def hello(interaction: discord.Integration):
     await slash_commands.hello(interaction)
 
-@bot.tree.command(name="slashgirls",description='Slashgirls? More like smashgirls; Generates random waifu image of your choice.')
+@bot.tree.command(name="slashgirls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
 @app_commands.choices(choices=[
     app_commands.Choice(name="Waifu", value="waifu"),
     app_commands.Choice(name="Neko", value="neko"),
@@ -52,7 +51,7 @@ async def hello(interaction: discord.Integration):
 async def slashgirls(interaction:discord.Integration,choices: app_commands.Choice[str]):
     await slash_commands.slashgirls(interaction,choices)
 
-@bot.tree.command(name="rps",description='Feeling lucky? Try Rock/Paper/Scissors with Aiko.')
+@bot.tree.command(name="rps",description='Feeling lucky? Try Rock/Paper/Scissors with Aiko')
 @app_commands.choices(choices=[
     app_commands.Choice(name="Rock", value="rock"),
     app_commands.Choice(name="Paper", value="paper"),
