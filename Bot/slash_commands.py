@@ -1,6 +1,7 @@
 import aiohttp
 import discord
 import random
+from Rewards import award_points
 
 
 waifuBaseURL = "https://api.waifu.pics/sfw/"
@@ -38,7 +39,10 @@ try:
 #  2. Gamble
 #  3. Slot Machine
             
-    async def rps(interaction:discord.Integration, choices: str):
+    async def rps(interaction:discord.Interaction, choices: str):
+        user_id = interaction.user.id
+        username = interaction.user.name
+
         bot_choice = random.choice(RPS)
         if (choices.value == bot_choice):
             counter = 'That\'s a tie! Once more!!.'
@@ -49,6 +53,7 @@ try:
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
             else:
                 counter = 'Aw... , Lucky you!📈'
+                award_points(user_id,username,1)
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
 
         elif (choices.value == 'paper'):
@@ -57,6 +62,7 @@ try:
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
             else:
                 counter = 'Aw... , Lucky you!📈'
+                award_points(user_id,username,1)
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
 
         elif (choices.value == 'scissors'):
@@ -65,11 +71,12 @@ try:
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
             else:
                 counter = 'Aw... , Lucky you!📈'
+                award_points(user_id,username,1)
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
         
             
         else:
-            counter = 'Try again'
+            counter = 'Enter Valid Input Bozo'
             await interaction.response.send_message(counter)
 
 
