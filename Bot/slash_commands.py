@@ -8,7 +8,7 @@ waifuBaseURL = "https://api.waifu.pics/sfw/"
 RPS = ['rock','paper','scissors']
 
 try:
-    async def hello(interaction: discord.Integration):
+    async def hello(interaction: discord.Interaction):
         await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
 
     async def slashgirls(interaction:discord.Integration, choices: str):
@@ -35,7 +35,7 @@ try:
 
 
 # Games in Slash Commands
-#  1. RPS (Rock, Paper and Scissor)
+#  1. RPS (Rock, Paper and Scissors)
 #  2. Gamble
 #  3. Slot Machine
             
@@ -80,7 +80,7 @@ try:
             await interaction.response.send_message(counter)
 
 
-    async def say(interaction: discord.Integration, describe: str):
+    async def say(interaction: discord.Interaction, describe: str):
         await interaction.response.send_message(f"{interaction.user.mention} said: `{describe}`")
 
 except discord.errors.NotFound:

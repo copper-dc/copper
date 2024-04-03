@@ -38,7 +38,7 @@ async def on_ready():
 
 # slash command starts
 @bot.tree.command(name = "hello",description='Just hello for programmers who loves to print Hello World')
-async def hello(interaction: discord.Integration):
+async def hello(interaction: discord.Interaction):
     await slash_commands.hello(interaction)
 
 @bot.tree.command(name="slashgirls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
@@ -59,7 +59,7 @@ async def slashgirls(interaction:discord.Integration,choices: app_commands.Choic
     app_commands.Choice(name="Scissors", value="scissors"),
 ]
 )
-async def rps(interaction:discord.Integration,choices: app_commands.Choice[str]):
+async def rps(interaction:discord.Interaction,choices: app_commands.Choice[str]):
     await slash_commands.rps(interaction,choices)
 
 @bot.tree.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
