@@ -5,6 +5,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from discord import app_commands
 import slash_commands
+from Rewards import view_points
 
 load_dotenv()
 
@@ -60,6 +61,11 @@ async def slashgirls(interaction:discord.Integration,choices: app_commands.Choic
 )
 async def rps(interaction:discord.Integration,choices: app_commands.Choice[str]):
     await slash_commands.rps(interaction,choices)
+
+@bot.tree.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
+async def view_points_cmd(interactions:discord.Interaction):
+    points_info = view_points(interactions.user.id)
+    await interactions.response.send_message(points_info)
 
 #slash command ends
 
