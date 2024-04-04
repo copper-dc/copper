@@ -7,31 +7,38 @@ from Rewards import award_points
 waifuBaseURL = "https://api.waifu.pics/sfw/"
 RPS = ['rock','paper','scissors']
 
+embedMessage = discord.Embed(colour=discord.Colour.random())
+
 try:
     async def hello(interaction: discord.Interaction):
         await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
 
-    async def slashgirls(interaction:discord.Integration, choices: str):
-        if (choices.value == 'neko'):
+    async def slashgirls(interaction:discord.Integration, Type: str):
+        slashgirlsEmbeds = discord.Embed(title="Enjoy your slash girl 🤤",colour=discord.Colour.random)
+        if (Type.value == 'neko'):
             updatedURL = waifuBaseURL+"neko"
             data = await fetch_json(updatedURL)
-            url = data['url']
-            await interaction.response.send_message(url)
-        elif (choices.value == 'waifu'):
+            imgurl = data['url']
+            slashgirlsEmbeds.set_image(url=imgurl)
+            await interaction.response.send_message(embed=slashgirlsEmbeds)
+        elif (Type.value == 'waifu'):
             updatedURL = waifuBaseURL+"waifu"
             data = await fetch_json(updatedURL)
-            url = data['url']
-            await interaction.response.send_message(url)
-        elif (choices.value=='megumin'):
+            imgurl = data['url']
+            slashgirlsEmbeds.set_image(url=imgurl)
+            await interaction.response.send_message(embed=slashgirlsEmbeds)
+        elif (Type.value=='megumin'):
             updatedURL = waifuBaseURL+"megumin"
             data = await fetch_json(updatedURL)
-            url = data['url']
-            await interaction.response.send_message(url)
-        elif (choices.value == 'shinobu'):
+            imgurl = data['url']
+            slashgirlsEmbeds.set_image(url=imgurl)
+            await interaction.response.send_message(embed=slashgirlsEmbeds)
+        elif (Type.value == 'shinobu'):
             updatedURL = waifuBaseURL+"shinobu"
             data = await fetch_json(updatedURL)
-            url = data['url']
-            await interaction.response.send_message(url)
+            imgurl = data['url']
+            slashgirlsEmbeds.set_image(url=imgurl)
+            await interaction.response.send_message(embed=slashgirlsEmbeds)
 
 
 # Games in Slash Commands
@@ -53,7 +60,7 @@ try:
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
             else:
                 counter = 'Aw... , Lucky you!📈'
-                award_points(user_id,username,1)
+                award_points(user_id,username,10)
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
 
         elif (choices.value == 'paper'):
