@@ -4,7 +4,7 @@ import random
 from Rewards import award_points
 
 
-waifuBaseURL = "https://api.waifu.pics/sfw/"
+waifuBaseURL = "https://api.waifu.pics/"
 RPS = ['rock','paper','scissors']
 
 embedMessage = discord.Embed(colour=discord.Colour.random())
@@ -13,32 +13,43 @@ try:
     async def hello(interaction: discord.Interaction):
         await interaction.response.send_message(f"Hey yo,{interaction.user.mention}")
 
-    async def slashgirls(interaction:discord.Integration, Type: str):
-        slashgirlsEmbeds = discord.Embed(title="Enjoy your slash girl 🤤",colour=discord.Colour.random)
-        if (Type.value == 'neko'):
-            updatedURL = waifuBaseURL+"neko"
+    async def slashgirls(interaction:discord.Integration, imgCategory: str, girltype: str):
+        slashgirlsEmbeds = discord.Embed(title="Enjoy your slash girl 🤤",colour=discord.Colour.random())
+        
+        if (girltype== 'neko'):
+            imageCategory = "sfw" if imgCategory == "sfw" else "nsfw"
+            updatedURL = waifuBaseURL+imageCategory+"/neko"
             data = await fetch_json(updatedURL)
             imgurl = data['url']
             slashgirlsEmbeds.set_image(url=imgurl)
             await interaction.response.send_message(embed=slashgirlsEmbeds)
-        elif (Type.value == 'waifu'):
-            updatedURL = waifuBaseURL+"waifu"
+        elif (girltype == 'waifu'):
+            imageCategory = "sfw" if imgCategory == "sfw" else "nsfw"
+            updatedURL = waifuBaseURL+imageCategory+"/waifu"
             data = await fetch_json(updatedURL)
             imgurl = data['url']
             slashgirlsEmbeds.set_image(url=imgurl)
             await interaction.response.send_message(embed=slashgirlsEmbeds)
-        elif (Type.value=='megumin'):
-            updatedURL = waifuBaseURL+"megumin"
-            data = await fetch_json(updatedURL)
-            imgurl = data['url']
-            slashgirlsEmbeds.set_image(url=imgurl)
-            await interaction.response.send_message(embed=slashgirlsEmbeds)
-        elif (Type.value == 'shinobu'):
-            updatedURL = waifuBaseURL+"shinobu"
-            data = await fetch_json(updatedURL)
-            imgurl = data['url']
-            slashgirlsEmbeds.set_image(url=imgurl)
-            await interaction.response.send_message(embed=slashgirlsEmbeds)
+        elif (girltype=='megumin'):
+            try:
+                imageCategory = "sfw" if imgCategory == "sfw" else "nsfw"
+                updatedURL = waifuBaseURL+imageCategory+"/megumin"
+                data = await fetch_json(updatedURL)
+                imgurl = data['url']
+                slashgirlsEmbeds.set_image(url=imgurl)
+                await interaction.response.send_message(embed=slashgirlsEmbeds)
+            except Exception as e:
+                await interaction.response.send_message("There is no NSFW image for megumin")
+        elif (girltype == 'shinobu'):
+            try:
+                imageCategory = "sfw" if imgCategory == "sfw" else "nsfw"
+                updatedURL = waifuBaseURL+imageCategory+"/shinobu"
+                data = await fetch_json(updatedURL)
+                imgurl = data['url']
+                slashgirlsEmbeds.set_image(url=imgurl)
+                await interaction.response.send_message(embed=slashgirlsEmbeds)
+            except Exception as e:
+                await interaction.response.send_message("There is no NSFW image for shinobu")
 
 
 # Games in Slash Commands

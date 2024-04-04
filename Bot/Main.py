@@ -42,15 +42,18 @@ async def hello(interaction: discord.Interaction):
     await slash_commands.hello(interaction)
 
 @bot.tree.command(name="slashgirls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
-@app_commands.choices(choices=[
+@app_commands.choices(category=[
+    app_commands.Choice(name="SFW", value="sfw"),
+    app_commands.Choice(name="NSFW", value="nsfw"),
+])
+@app_commands.choices(girltype=[
     app_commands.Choice(name="Waifu", value="waifu"),
     app_commands.Choice(name="Neko", value="neko"),
     app_commands.Choice(name="Shinobu", value="shinobu"),
     app_commands.Choice(name="Megumin", value="megumin"),
-]
-)
-async def slashgirls(interaction:discord.Integration,choices: app_commands.Choice[str]):
-    await slash_commands.slashgirls(interaction,choices)
+])
+async def slashgirls(interaction:discord.Integration, category: app_commands.Choice[str], girltype: app_commands.Choice[str]):
+    await slash_commands.slashgirls(interaction,category.value,girltype.value)
 
 @bot.tree.command(name="rps",description='Feeling lucky? Try Rock/Paper/Scissors with Aiko')
 @app_commands.choices(choices=[
