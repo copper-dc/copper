@@ -6,10 +6,14 @@ from dotenv import load_dotenv
 from discord import app_commands
 import slash_commands
 from Rewards import view_points
+from bardapi import Bard
 
 load_dotenv()
 
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
+
+
+BARDTOKEN: Final[str] = os.getenv('GEMINI_TOKEN')
 
 
 global strings
@@ -40,6 +44,7 @@ async def on_ready():
 @bot.tree.command(name = "hello",description='Just hello for programmers who loves to print Hello World')
 async def hello(interaction: discord.Interaction):
     await slash_commands.hello(interaction)
+    
 
 @bot.tree.command(name="slashgirls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
 @app_commands.choices(category=[
@@ -69,6 +74,14 @@ async def rps(interaction:discord.Interaction,choices: app_commands.Choice[str])
 async def view_points_cmd(interactions:discord.Interaction):
     points_info = view_points(interactions.user.id)
     await interactions.response.send_message(points_info)
+
+
+@bot.tree.command(name = "ask_bard")
+@app_commands.describe(describe = "Ask me anything ")
+async def ask_bard(interactions: discord.Integration, describe: str):
+    bard = Bard(token=BARDTOKEN)
+    response = bard.get_answer(describe)['content']
+    await interactions.response.send_message(response)
 
 #slash command ends
 
