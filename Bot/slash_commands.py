@@ -96,10 +96,7 @@ try:
             counter = 'Enter Valid Input Bozo'
             await interaction.response.send_message(counter)
 
-    # async def ask_bard(interaction: discord.Interaction,describe: str,AITOKEN: str):
-    #     bardAi = Bard(AITOKEN)
-    #     response = bardAi.get_answer(describe)
-    #     await interaction.response.send_message(response)
+
 
 
 

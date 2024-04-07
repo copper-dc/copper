@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from discord import app_commands
 import slash_commands
 from Rewards import view_points
-from bardapi import Bard
+
 
 load_dotenv()
 
@@ -76,12 +76,7 @@ async def view_points_cmd(interactions:discord.Interaction):
     await interactions.response.send_message(points_info)
 
 
-@bot.tree.command(name = "ask_bard")
-@app_commands.describe(describe = "Ask me anything ")
-async def ask_bard(interactions: discord.Integration, describe: str):
-    bard = Bard(token=BARDTOKEN)
-    response = bard.get_answer(describe)['content']
-    await interactions.response.send_message(response)
+
 
 #slash command ends
 
