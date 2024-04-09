@@ -23,42 +23,48 @@ class Api_commands(commands.Cog):
     app_commands.Choice(name="NSFW", value="nsfw")
     ])
     async def slashgirls(self,interaction: discord.Interaction, girltype: str, category: str = "sfw"):
-        slashgirlsEmbeds = discord.Embed(title="Enjoy your slash girl 🤤",colour=discord.Colour.random())
+        channel = interaction.channel
         
         if (girltype== 'neko'):
             imageCategory = "sfw" if category == "sfw" else "nsfw"
-            updatedURL = waifuBaseURL+imageCategory+"/neko"
-            data = await fetch_json(updatedURL)
-            imgurl = data['url']
-            slashgirlsEmbeds.set_image(url=imgurl)
-            await interaction.response.send_message(embed=slashgirlsEmbeds)
+            if imageCategory == "nsfw":
+                if await is_nsfw(channel=channel):
+                    await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
+                else:
+                    await interaction.response.send_message("Try in a NSFW channel!")
+            elif imageCategory == "sfw":
+                await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
+            
         elif (girltype == 'waifu'):
             imageCategory = "sfw" if category == "sfw" else "nsfw"
-            updatedURL = waifuBaseURL+imageCategory+"/waifu"
-            data = await fetch_json(updatedURL)
-            imgurl = data['url']
-            slashgirlsEmbeds.set_image(url=imgurl)
-            await interaction.response.send_message(embed=slashgirlsEmbeds)
+            if imageCategory == "nsfw":
+                if await is_nsfw(channel=channel):
+                    await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
+                else:
+                    await interaction.response.send_message("Try in a NSFW channel!")
+            elif imageCategory == "sfw":
+                await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
+
         elif (girltype=='megumin'):
-            try:
                 imageCategory = "sfw" if category == "sfw" else "nsfw"
-                updatedURL = waifuBaseURL+imageCategory+"/megumin"
-                data = await fetch_json(updatedURL)
-                imgurl = data['url']
-                slashgirlsEmbeds.set_image(url=imgurl)
-                await interaction.response.send_message(embed=slashgirlsEmbeds)
-            except Exception as e:
-                await interaction.response.send_message("There is no NSFW image for megumin")
+                if imageCategory == "nsfw":
+                    if await is_nsfw(channel=channel):
+                        await interaction.response.send_message("Realy? No megumin nsfw!")
+                    else:
+                        await interaction.response.send_message("Try in a NSFW channel!")
+                elif imageCategory == "sfw":
+                    await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
+
         elif (girltype == 'shinobu'):
-            try:
                 imageCategory = "sfw" if category == "sfw" else "nsfw"
-                updatedURL = waifuBaseURL+imageCategory+"/shinobu"
-                data = await fetch_json(updatedURL)
-                imgurl = data['url']
-                slashgirlsEmbeds.set_image(url=imgurl)
-                await interaction.response.send_message(embed=slashgirlsEmbeds)
-            except Exception as e:
-                await interaction.response.send_message("There is no NSFW image for shinobu")
+                if imageCategory == "nsfw":
+                    if await is_nsfw(channel=channel):
+                        await interaction.response.send_message("Really? No shinobu nsfw!")
+                    else:
+                        await interaction.response.send_message("Try in a NSFW channel!")
+                elif imageCategory == "sfw":
+                    await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
+            
     
 
 async def fetch_json(url):
@@ -66,6 +72,23 @@ async def fetch_json(url):
         async with session.get(url) as response:
             data = await response.json()
             return data
+        
+async def fetch_img(imageCat: str, girltype:str, interaction: discord.Interaction):
+    slashgirlsEmbeds = discord.Embed(title="Enjoy your slash girl 🤤",colour=discord.Colour.random())
+    updatedURL = waifuBaseURL+imageCat+"/"+girltype
+    data = await fetch_json(updatedURL)
+    imgurl = data['url']
+    slashgirlsEmbeds.set_image(url=imgurl)
+    await interaction.response.send_message(embed=slashgirlsEmbeds)
+        
+async def is_nsfw(channel: discord.Interaction.channel):
+    if isinstance(channel,discord.TextChannel):
+        if channel.nsfw:
+            return True
+        else:
+            return False
+    else:
+        return "bruh"
         
 async def setup(bot: commands.Bot):
     # print("Api_commands is loaded")
