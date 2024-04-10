@@ -105,12 +105,14 @@ class Games(commands.Cog):
         BalanceEmbed = discord.Embed(title="Your wallet balance",colour=discord.Colour.random())
         BalanceEmbed.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
         if member is None:
+            
             member = interactions.user.id
         elif member is not None:
             member = member.id
-        balance_coins = view_points(member)
+
         username = interactions.user.mention
-        BalanceEmbed.description = ":coin: "+username+" = "+str(balance_coins)
+        balance = view_points(member)
+        BalanceEmbed.description = ":coin: "+username+balance
         await interactions.response.send_message(embed=BalanceEmbed)
 
     
