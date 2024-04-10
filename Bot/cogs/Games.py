@@ -37,7 +37,7 @@ class Games(commands.Cog):
                 award_points(user_id,username,10)
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
 
-        elif (choices.value == 'paper'):
+        elif (choices == 'paper'):
             if bot_choice == 'scissors':
                 counter = 'Hehe, I win, Better luck next time~'
                 await interaction.response.send_message(f"{bot_choice}. {counter}")
