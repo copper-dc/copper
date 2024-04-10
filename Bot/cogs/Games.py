@@ -77,29 +77,22 @@ class Games(commands.Cog):
 
         slotMachineEmbeds = discord.Embed(title="Jungle Jackpot: Spin Your Way to Riches in the Wild!",colour=discord.Colour.random())
         slotMachineEmbeds.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
-        if(first_box == special_emoji and second_box == special_emoji and third_box == special_emoji):
-            winning_line = first_box,"  ",second_box,"  ",third_box
+        if(first_box == second_box == third_box == special_emoji):
+            winning_line = first_box+"  "+second_box+"  "+third_box
             slotMachineEmbeds.description = winning_line
             slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + jackpot)
             slotMachineEmbeds.set_footer(text="JACKPOT BITCH! You're a winner with this fantastic slot line!✨")
             slotMachineEmbeds.set_image(url="https://c.tenor.com/CSWyS926r04AAAAd/tenor.gif")
-            award_points(user_id,username,int(jackpot))
-        elif(((first_box == second_box)!= special_emoji) and ((first_box==third_box)!=special_emoji) and ((second_box==third_box)!= special_emoji)):
-            winning_line = first_box,"  ",second_box,"  ",third_box
+            award_points(user_id,username,500)
+        elif(first_box == second_box or first_box == third_box or second_box == third_box):
+            winning_line = first_box+"  "+second_box+"  "+third_box
             slotMachineEmbeds.description = winning_line
             slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + winningpoint)
-            slotMachineEmbeds.set_footer(text="You're a winner with this fantastic slot line!✨")
+            slotMachineEmbeds.set_footer(text="You have less luck than meee!")
             slotMachineEmbeds.set_image(url="https://media.tenor.com/2euepBwORpgAAAAi/diluc-kaeya.gif")
-            award_points(user_id,username,int(winningpoint))
-        elif(((first_box == second_box)!= special_emoji) or ((first_box==third_box)!=special_emoji) or ((second_box==third_box)!= special_emoji)):
-            winning_line = first_box,"  ",second_box,"  ",third_box
-            slotMachineEmbeds.description = winning_line
-            slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + secondwinningpoint)
-            slotMachineEmbeds.set_footer(text="You have less luck than meee!✨")
-            slotMachineEmbeds.set_image(url="https://media.tenor.com/2euepBwORpgAAAAi/diluc-kaeya.gif")
-            award_points(user_id,username,int(secondwinningpoint))
+            award_points(user_id,username,250)
         else:
-            winning_line = first_box,"  ",second_box,"  ",third_box
+            winning_line = first_box+"  "+second_box+"  "+third_box
             slotMachineEmbeds.description = winning_line
             slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + loserpoint)
             slotMachineEmbeds.set_footer(text="You are a loser bitch...")
@@ -109,12 +102,16 @@ class Games(commands.Cog):
 
     @app_commands.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
     async def view_points_cmd(self, interactions:discord.Interaction,member:discord.Member =None):
+        BalanceEmbed = discord.Embed(title="Your wallet balance",colour=discord.Colour.random())
+        BalanceEmbed.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
         if member is None:
             member = interactions.user.id
         elif member is not None:
             member = member.id
-        points_info = view_points(member)
-        await interactions.response.send_message(points_info)
+        balance_coins = view_points(member)
+        username = interactions.user.mention
+        BalanceEmbed.description = ":coin: "+username+" = "+str(balance_coins)
+        await interactions.response.send_message(embed=BalanceEmbed)
 
     
 
