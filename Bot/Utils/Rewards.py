@@ -27,7 +27,7 @@ def view_points(user_id):
         c.execute('''SELECT username, points FROM user_points WHERE user_id = ?''', (user_id,))
         result = c.fetchone()
         if result:
-            return f"{result[0]}'s balance = $ {result[1]}"
+            return f" balance = $ {result[1]}"
         else:
             return "User not found."
     except sqlite3.Error as e:

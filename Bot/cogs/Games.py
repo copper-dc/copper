@@ -112,12 +112,15 @@ class Games(commands.Cog):
         BalanceEmbed.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
         if member is None:
             member = interactions.user.id
+            user_mention = interactions.user.mention
         elif member is not None:
+            user_mention = member.mention
             member = member.id
+            
 
         balance = view_points(member)
 
-        BalanceEmbed.description = balance
+        BalanceEmbed.description = f"{user_mention}'s {balance}" 
         await interactions.response.send_message(embed=BalanceEmbed)
 
     
