@@ -24,10 +24,10 @@ def award_points(user_id, username, points):
 # Function to view points of a user
 def view_points(user_id):
     try:
-        c.execute('''SELECT username,points FROM user_points WHERE user_id = ?''', (user_id))
+        c.execute('''SELECT username, points FROM user_points WHERE user_id = ?''', (user_id,))
         result = c.fetchone()
         if result:
-            return f" balance = :coin: {result[1]}"
+            return f"{result[0]}'s balance = $ {result[1]}"
         else:
             return "User not found."
     except sqlite3.Error as e:
