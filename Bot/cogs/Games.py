@@ -26,40 +26,47 @@ class Games(commands.Cog):
         username = interaction.user.name
 
         bot_choice = random.choice(RPS)
-        if (choices == bot_choice):
-            counter = 'That\'s a tie! Once more!!.'
-            await interaction.response.send_message(f"{bot_choice}. {counter}")
-        elif (choices== 'rock'):
-            if bot_choice == 'paper':
-                counter = 'Hehe, I win, Better luck next time~'
-                await interaction.response.send_message(f"{bot_choice}. {counter}")
+        rpsEmbeds = discord.Embed(title="Rock Paper Shoot!!!",colour = discord.Colour.random())
+        rpsEmbeds.add_field(name="You chose: **" + choices + "**", value="**Bot chose: " + bot_choice + "**", inline=False)
+        if((choices==bot_choice=="rock") or (choices==bot_choice=="scissors") or (choices==bot_choice=="paper")):
+            rpsEmbeds.add_field(name="Your reward for this round",value="$25", inline=False)
+            rpsEmbeds.description = "**Sorry, Tie**"
+            award_points(user_id,username,25)
+        elif(choices=="rock"):
+            rpsEmbeds.set_image(url="https://media.tenor.com/5XuwpvROzEoAAAAi/rock-paper-scissors-roshambo.gif")
+            if(bot_choice== "scissors"):
+                rpsEmbeds.description = "**you won** :grin:"
+                rpsEmbeds.add_field(name="Your reward for this round",value="$50", inline=False)
+                award_points(user_id,username,50)
             else:
-                counter = 'Aw... , Lucky you!📈'
-                award_points(user_id,username,10)
-                await interaction.response.send_message(f"{bot_choice}. {counter}")
+                rpsEmbeds.description = "**You Lost** :sob:"
+                rpsEmbeds.add_field(name="Your reward for this round",value="$0", inline=False)
+                award_points(user_id, username, 0)
+        elif(choices=="scissors"):
+            rpsEmbeds.set_image(url="https://media.tenor.com/NyHqrePBRAEAAAAi/rock-paper-scissors-roshambo.gif")
+            if(bot_choice == "paper"):
+                rpsEmbeds.description = "**You Won** :grin:"
+                rpsEmbeds.add_field(name="Your reward for this round",value="$50", inline=False)
+                award_points(user_id, username, 50)
+            else:
+                rpsEmbeds.description = "**You Lost** :sob:"
+                rpsEmbeds.add_field(name="Your reward for this round",value="$0", inline=False)
+                award_points(user_id, username, 0)
+        elif(choices == "paper"):
+            rpsEmbeds.set_image(url="https://media.tenor.com/iXeUwKbISiQAAAAi/rock-paper-scissors-roshambo.gif")
+            if(bot_choice == "rock"):
+                rpsEmbeds.description = "**You Won** :grin:"
+                rpsEmbeds.add_field(name="Your reward for this round",value="$50", inline=False)
+                award_points(user_id, username, 50)
+            else:
+                rpsEmbeds.description = "**You Lost** :sob:"
+                rpsEmbeds.add_field(name="Your reward for this round",value="$0", inline=False)
+                award_points(user_id, username, 0)
+        await  interaction.response.send_message(embed = rpsEmbeds)
 
-        elif (choices == 'paper'):
-            if bot_choice == 'scissors':
-                counter = 'Hehe, I win, Better luck next time~'
-                await interaction.response.send_message(f"{bot_choice}. {counter}")
-            else:
-                counter = 'Aw... , Lucky you!📈'
-                award_points(user_id,username,10)
-                await interaction.response.send_message(f"{bot_choice}. {counter}")
 
-        elif (choices == 'scissors'):
-            if bot_choice == 'rock':
-                counter = 'Hehe, I win, Better luck next time~'
-                await interaction.response.send_message(f"{bot_choice}. {counter}")
-            else:
-                counter = 'Aw... , Lucky you!📈'
-                award_points(user_id,username,10)
-                await interaction.response.send_message(f"{bot_choice}. {counter}")
-        
-            
-        else:
-            counter = 'Enter Valid Input Bozo'
-            await interaction.response.send_message(counter)
+
+
 
     @app_commands.command(name='slot',description="Let's see, How much luck do you have...")
     async def slot(self,interaction:discord.Interaction):
