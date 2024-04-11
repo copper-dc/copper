@@ -72,7 +72,6 @@ class Games(commands.Cog):
 
         jackpot = "500"
         winningpoint = "250"
-        secondwinningpoint = "100"
         loserpoint = "0"
 
         slotMachineEmbeds = discord.Embed(title="Jungle Jackpot: Spin Your Way to Riches in the Wild!",colour=discord.Colour.random())

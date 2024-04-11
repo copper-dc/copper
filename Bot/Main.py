@@ -56,7 +56,7 @@ async def on_message(message):
         # Send a response mentioning the user who sent the message
         
 async def load():
-    for filename in os.listdir("Bot/cogs"):
+    for filename in os.listdir("../Bot/cogs"):
         if filename.endswith('.py'):
             print(f"loading {filename}")
             await bot.load_extension(f"cogs.{filename[:-3]}")
