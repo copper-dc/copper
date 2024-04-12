@@ -9,7 +9,7 @@ Aiko is a customizable Discord bot developed to enhance your Discord server with
 
 - **Custom Commands**: Create custom commands to perform specific actions or provide information.
 - **Moderation Tools**: Manage your server more effectively with moderation tools like kick, ban, and mute.
-- **Music Playback**: Play music from YouTube or other sources in voice channels.
+- **Music Playback**: Play music from YouTube or other sources in voice channels (In Future).
 - **Fun Commands**: Engage your community with fun commands like memes, jokes, and trivia.
 - **Utility Commands**: Access utility commands for information retrieval, weather forecasts, and more.
 
