@@ -1,7 +1,7 @@
 import sqlite3
 
 # Connect to SQLite database
-conn = sqlite3.connect('points.db')
+conn = sqlite3.connect('Bot/points.db')
 if conn:
     print("Connected to SQLite database")
 c = conn.cursor()
