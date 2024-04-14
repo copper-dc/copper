@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import sys
+from translate import Translator
 
 sys.path.append('Bot/')
 from Utils.Rewards import award_points,view_points
@@ -65,7 +66,11 @@ class Games(commands.Cog):
         await  interaction.response.send_message(embed = rpsEmbeds)
 
 
-
+    # @app_commands.command(name="translate",description="Translate your language to other")
+    # async def translate(self,interaction: discord.Interaction,text: str):
+    #     translator = Translator(to_lang="ja")
+    #     translation = translator.translate(text)
+    #     await interaction.response.send_message(translation)
 
 
     @app_commands.command(name='slot',description="Let's see, How much luck do you have...")
