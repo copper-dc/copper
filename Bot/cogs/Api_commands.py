@@ -4,13 +4,13 @@ import os
 from discord.ext import commands
 from discord import app_commands
 
-
 waifuBaseURL = "https://api.waifu.pics/"
 
 class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-    
+
+
     @app_commands.command(name="slashgirls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
     
     @app_commands.choices(girltype =[
@@ -64,7 +64,9 @@ class Api_commands(commands.Cog):
                         await interaction.response.send_message("Try in a NSFW channel!")
                 elif imageCategory == "sfw":
                     await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
-            
+
+
+
     
 
 async def fetch_json(url):

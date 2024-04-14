@@ -43,7 +43,7 @@ async def on_ready():
 async def on_message(message):
     # Check if the message starts with strings[]
     for string in strings:
-        if ((message.content.startswith("?"))): # response in private 
+        if ((message.content.startswith("?"))): # response in private
                 if message.author != bot.user:
                  await message.author.send(f"{message.content[1:]} {message.author.mention}!")
                  break
@@ -53,8 +53,7 @@ async def on_message(message):
             if message.author != bot.user:
                 await message.channel.send(f'{string.capitalize()} {message.author.mention}!')
             break
-        # Send a response mentioning the user who sent the message
-        
+
 async def load():
     for filename in os.listdir("../Bot/cogs"):
         if filename.endswith('.py'):
