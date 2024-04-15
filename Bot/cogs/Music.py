@@ -36,17 +36,17 @@ class Music(commands.Cog):
         
         
         
-        # @app_commands.command(name='pause', description='pauses/ resumes current track!')
-        # async def pause_music(self):
-        #     pass
+        @app_commands.command(name='pause', description='pauses/ resumes current track!')
+        async def pause_music(self):
+            pass
 
-        # @app_commands.command(name='next', description='skips to next track!')
-        # async def next_music(self):
-        #     pass
+        @app_commands.command(name='next', description='skips to next track!')
+        async def next_music(self):
+            pass
 
-        # @app_commands.command(name='queue', description='list tracks!')
-        # async def show_queue(self):
-        #     pass
+        @app_commands.command(name='queue', description='list tracks!')
+        async def show_queue(self):
+            pass
 
     @app_commands.command(name='stop', description='stops current session!')
     async def stop_session(self, interaction: discord.Interaction):
@@ -60,45 +60,45 @@ class Music(commands.Cog):
         else:
             await interaction.response.send_message(('I am not in vc baka!'))
 
-        # @app_commands.command(name='fav', description='add the current track to favourites!')
-        # async def fav_music(self):
-        #     pass
+        @app_commands.command(name='fav', description='add the current track to favourites!')
+        async def fav_music(self):
+            pass
 
-        # @app_commands.command(name='resume', description='resumes current track!')
-        # async def resume_music(self):
-        #     pass
+        @app_commands.command(name='resume', description='resumes current track!')
+        async def resume_music(self):
+            pass
 
-        # @app_commands.command(name='remove', description='removes the current track or given track!')
-        # async def remove_music(self):
-        #     pass
+        @app_commands.command(name='remove', description='removes the current track or given track!')
+        async def remove_music(self):
+            pass
 
-        # @app_commands.command(name='show fav', description='shows saved favs!')
-        # async def show_fav_music(self):
-        #     pass
+        @app_commands.command(name='show fav', description='shows saved favs!')
+        async def show_fav_music(self):
+            pass
 
-        # @app_commands.command(name='play fav', description='plays fav music!')
-        # async def play_fav_music(self):
-        #     pass
+        @app_commands.command(name='play fav', description='plays fav music!')
+        async def play_fav_music(self):
+            pass
 
-        # @app_commands.command(name='pause', description='pauses/ resumes current track!')
-        # async def pause_music(self):
-        #     pass
+        @app_commands.command(name='pause', description='pauses/ resumes current track!')
+        async def pause_music(self):
+            pass
 
-        # @app_commands.command(name='del fav', description='delete a fav track!')
-        # async def delete_fav_music(self):
-        #     pass
+        @app_commands.command(name='del fav', description='delete a fav track!')
+        async def delete_fav_music(self):
+            pass
 
-        # @app_commands.command(name='now playing', description='info about current track!')
-        # async def now_playing(self):
-        #     pass
+        @app_commands.command(name='now playing', description='info about current track!')
+        async def now_playing(self):
+            pass
 
-        # @app_commands.command(name='previous', description='plays previous track!')
-        # async def previous_music(self):
-        #     pass
+        @app_commands.command(name='previous', description='plays previous track!')
+        async def previous_music(self):
+            pass
 
-        # @app_commands.command(name='clear queue', description='plays current track and clers queue!')
-        # async def pause_music(self):
-        #     pass
+        @app_commands.command(name='clear queue', description='plays current track and clers queue!')
+        async def pause_music(self):
+            pass
 
 music_var = Music(bot=commands.Bot(command_prefix='+', intents=discord.Intents.all()))
 
