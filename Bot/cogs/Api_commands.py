@@ -1,15 +1,38 @@
+import base64
+from io import BytesIO
+import random
 import aiohttp
 import discord
 import os
 from discord.ext import commands
 from discord import app_commands
 from translate import Translator
+from craiyon import Craiyon, craiyon_utils
 
 waifuBaseURL = "https://api.waifu.pics/"
 
 class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
+    
+    @app_commands.command(name="texttoimg",description="Give your prompt to generate image")
+    async def texttoimg(self,interaction: discord.Interaction,prompt: str):
+        # await interaction.response.send_message("Generating: "+prompt+" ....")
+        generator = Craiyon()
+        generated_images = await generator.async_generate(prompt)
+        b64_list = await craiyon_utils.async_encode_base64(generated_images.images) 
+        
+        images1 = []
+        for index, image in enumerate(b64_list):
+            img_bytes = BytesIO(base64.b64decode(image)) 
+            # image = discord.File(img_bytes)
+            image =  discord.File(img_bytes)
+            image.filename = f"result{index}.webp"
+            images1.append(image) 
+
+        
+        await interaction.response.send_message(files=images1)
+
 
     @app_commands.command(name="translate",description="Translate your language to other")
     @app_commands.choices( languages = [
@@ -27,7 +50,7 @@ class Api_commands(commands.Cog):
         translation = translator.translate(text)
         await interaction.response.send_message(translation)
 
-    @app_commands.command(name="slashgirls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
+    @app_commands.command(name="slash-girls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
     
     @app_commands.choices(girltype =[
         app_commands.Choice(name="Waifu", value="waifu"),
