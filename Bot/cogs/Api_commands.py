@@ -1,5 +1,6 @@
 import base64
 from io import BytesIO
+from operator import ge
 import random
 import aiohttp
 import discord
@@ -18,20 +19,9 @@ class Api_commands(commands.Cog):
     @app_commands.command(name="texttoimg",description="Give your prompt to generate image")
     async def texttoimg(self,interaction: discord.Interaction,prompt: str):
         # await interaction.response.send_message("Generating: "+prompt+" ....")
-        generator = Craiyon()
-        generated_images = await generator.async_generate(prompt)
-        b64_list = await craiyon_utils.async_encode_base64(generated_images.images) 
+        imgURL = await fetch_imgURL(prompt)
         
-        images1 = []
-        for index, image in enumerate(b64_list):
-            img_bytes = BytesIO(base64.b64decode(image)) 
-            # image = discord.File(img_bytes)
-            image =  discord.File(img_bytes)
-            image.filename = f"result{index}.webp"
-            images1.append(image) 
-
-        
-        await interaction.response.send_message(files=images1)
+        await interaction.response.send_message(imgURL)
 
 
     @app_commands.command(name="translate",description="Translate your language to other")
@@ -105,6 +95,10 @@ class Api_commands(commands.Cog):
                     await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
 
 
+async def fetch_imgURL(prompt: str):
+    generator = Craiyon()
+    url = generator.generate(prompt=prompt)
+    return url.images
 
     
 
