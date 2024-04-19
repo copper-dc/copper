@@ -1,15 +1,16 @@
 import random
+import aiohttp
 import discord
 from discord.ext import commands
 from discord import app_commands
 import sys
+import requests
 from translate import Translator
-
-sys.path.append('Bot/')
 from Utils.Rewards import award_points,view_points
 
 RPS = ['rock','paper','scissors']
 SLOT_MACHINE =[":8ball:",":moneybag:",":coin:",":gem:",":cherries:",":money_with_wings:"]
+GUESS_URL = "localhost:8000/get-quiz"
 
 class Games(commands.Cog):
     def __init__(self,bot):
@@ -72,6 +73,24 @@ class Games(commands.Cog):
     #     translation = translator.translate(text)
     #     await interaction.response.send_message(translation)
 
+    @app_commands.command(name="guess",description="guess the anime/game character...")
+    async def guess(self,intercation: discord.Interaction):
+        id = random.randint(1,3)
+        updated_URL = GUESS_URL+"/"+id
+        guessEmbed = discord.Embed(title="Guess the character",colour=discord.Colour.random())
+        # data = await fetch_json(updated_URL)
+        # imgURL = data['url']
+        # answer = data['name']
+        # guessEmbed.set_image(url=imgURL)
+        response = requests.get(updated_URL)
+        data = response.json()
+        answer = data['name']
+        img = data['url']
+        guessEmbed.set_image(url=img)
+        await intercation.response.send_message(guessEmbed)
+
+
+
 
     @app_commands.command(name='slot',description="Let's see, How much luck do you have...")
     async def slot(self,interaction:discord.Interaction):
@@ -128,6 +147,11 @@ class Games(commands.Cog):
         BalanceEmbed.description = f"{user_mention}'s {balance}" 
         await interactions.response.send_message(embed=BalanceEmbed)
 
+async def fetch_json(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            data = await response.json()
+            return data
     
 
 async def setup(bot: commands.Bot):
