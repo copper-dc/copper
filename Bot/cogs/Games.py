@@ -10,7 +10,7 @@ from Utils.Rewards import award_points,view_points
 
 RPS = ['rock','paper','scissors']
 SLOT_MACHINE =[":8ball:",":moneybag:",":coin:",":gem:",":cherries:",":money_with_wings:"]
-GUESS_URL = "localhost:8000/get-quiz"
+GUESS_URL = "http://127.0.0.1:8000/get-quiz"
 
 class Games(commands.Cog):
     def __init__(self,bot):
@@ -67,25 +67,16 @@ class Games(commands.Cog):
         await  interaction.response.send_message(embed = rpsEmbeds)
 
 
-    # @app_commands.command(name="translate",description="Translate your language to other")
-    # async def translate(self,interaction: discord.Interaction,text: str):
-    #     translator = Translator(to_lang="ja")
-    #     translation = translator.translate(text)
-    #     await interaction.response.send_message(translation)
+    
 
     @app_commands.command(name="guess",description="guess the anime/game character...")
     async def guess(self,intercation: discord.Interaction):
         id = random.randint(1,3)
         updated_URL = GUESS_URL+"/"+id
         guessEmbed = discord.Embed(title="Guess the character",colour=discord.Colour.random())
-        # data = await fetch_json(updated_URL)
-        # imgURL = data['url']
-        # answer = data['name']
-        # guessEmbed.set_image(url=imgURL)
-        response = requests.get(updated_URL)
-        data = response.json()
-        answer = data['name']
-        img = data['url']
+        fetched_data = await fetch_data(updated_URL)
+        img = fetched_data.get('url')
+        ans = fetched_data.get('name')
         guessEmbed.set_image(url=img)
         await intercation.response.send_message(guessEmbed)
 
@@ -147,12 +138,13 @@ class Games(commands.Cog):
         BalanceEmbed.description = f"{user_mention}'s {balance}" 
         await interactions.response.send_message(embed=BalanceEmbed)
 
-async def fetch_json(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            data = await response.json()
-            return data
-    
+async def fetch_data(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        return None
 
 async def setup(bot: commands.Bot):
     # print("Games is loaded")
