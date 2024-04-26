@@ -6,7 +6,7 @@ from discord import app_commands
 import sys
 import requests
 from translate import Translator
-from Utils.Rewards import award_points,view_points
+from Utils.DataBase import create_db, find, update_db, delete
 
 RPS = ['rock','paper','scissors']
 SLOT_MACHINE =[":8ball:",":moneybag:",":coin:",":gem:",":cherries:",":money_with_wings:"]
@@ -33,37 +33,37 @@ class Games(commands.Cog):
         if((choices==bot_choice=="rock") or (choices==bot_choice=="scissors") or (choices==bot_choice=="paper")):
             rpsEmbeds.add_field(name="Your reward for this round",value="$25", inline=False)
             rpsEmbeds.description = "**Sorry, Tie**"
-            award_points(user_id,username,25)
+            await award_points(user_id,username,25)
         elif(choices=="rock"):
             rpsEmbeds.set_image(url="https://media.tenor.com/5XuwpvROzEoAAAAi/rock-paper-scissors-roshambo.gif")
             if(bot_choice== "scissors"):
                 rpsEmbeds.description = "**you won** :grin:"
                 rpsEmbeds.add_field(name="Your reward for this round",value="$50", inline=False)
-                award_points(user_id,username,50)
+                await award_points(user_id,username,50)
             else:
                 rpsEmbeds.description = "**You Lost** :sob:"
                 rpsEmbeds.add_field(name="Your reward for this round",value="$0", inline=False)
-                award_points(user_id, username, 0)
+                await award_points(user_id, username, 0)
         elif(choices=="scissors"):
             rpsEmbeds.set_image(url="https://media.tenor.com/NyHqrePBRAEAAAAi/rock-paper-scissors-roshambo.gif")
             if(bot_choice == "paper"):
                 rpsEmbeds.description = "**You Won** :grin:"
                 rpsEmbeds.add_field(name="Your reward for this round",value="$50", inline=False)
-                award_points(user_id, username, 50)
+                await award_points(user_id, username, 50)
             else:
                 rpsEmbeds.description = "**You Lost** :sob:"
                 rpsEmbeds.add_field(name="Your reward for this round",value="$0", inline=False)
-                award_points(user_id, username, 0)
+                await award_points(user_id, username, 0)
         elif(choices == "paper"):
             rpsEmbeds.set_image(url="https://media.tenor.com/iXeUwKbISiQAAAAi/rock-paper-scissors-roshambo.gif")
             if(bot_choice == "rock"):
                 rpsEmbeds.description = "**You Won** :grin:"
                 rpsEmbeds.add_field(name="Your reward for this round",value="$50", inline=False)
-                award_points(user_id, username, 50)
+                await award_points(user_id, username, 50)
             else:
                 rpsEmbeds.description = "**You Lost** :sob:"
                 rpsEmbeds.add_field(name="Your reward for this round",value="$0", inline=False)
-                award_points(user_id, username, 0)
+                await award_points(user_id, username, 0)
         await  interaction.response.send_message(embed = rpsEmbeds)
 
 
@@ -104,38 +104,39 @@ class Games(commands.Cog):
             slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + jackpot)
             slotMachineEmbeds.set_footer(text="JACKPOT BITCH! You're a winner with this fantastic slot line!✨")
             slotMachineEmbeds.set_image(url="https://c.tenor.com/CSWyS926r04AAAAd/tenor.gif")
-            award_points(user_id,username,500)
+            await award_points(user_id,username,500)
         elif(first_box == second_box or first_box == third_box or second_box == third_box):
             winning_line = first_box+"  "+second_box+"  "+third_box
             slotMachineEmbeds.description = winning_line
             slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + winningpoint)
             slotMachineEmbeds.set_footer(text="You have less luck than meee!")
             slotMachineEmbeds.set_image(url="https://media.tenor.com/2euepBwORpgAAAAi/diluc-kaeya.gif")
-            award_points(user_id,username,250)
+            await award_points(user_id,username,250)
         else:
             winning_line = first_box+"  "+second_box+"  "+third_box
             slotMachineEmbeds.description = winning_line
             slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + loserpoint)
             slotMachineEmbeds.set_footer(text="You are a loser bitch...")
             slotMachineEmbeds.set_image(url="https://c.tenor.com/nNQa-ZjLAzgAAAAC/tenor.gif")
-            award_points(user_id,username,0)
+            await award_points(user_id,username,0)
         await interaction.response.send_message(embed=slotMachineEmbeds)
 
     @app_commands.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
-    async def view_points_cmd(self, interactions:discord.Interaction,member:discord.Member =None):
+    async def view_points_cmd(self, interactions:discord.Interaction,user:discord.Member =None):
         BalanceEmbed = discord.Embed(title="Your wallet balance",colour=discord.Colour.random())
         BalanceEmbed.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
-        if member is None:
-            member = interactions.user.id
-            user_mention = interactions.user.mention
-        elif member is not None:
-            user_mention = member.mention
-            member = member.id
-            
+        if user is not None:
+            user_id = user.id
+            points = await find(user_id,1)
+        else:
+            user_id = interactions.user.id
+            user = interactions.user
+            points = await find(user_id,1)
 
-        balance = view_points(member)
-
-        BalanceEmbed.description = f"{user_mention}'s {balance}" 
+        if type(points) == str:
+            BalanceEmbed.description = f"{user.mention} hasnt participated in any games yet."
+        else:
+            BalanceEmbed.description = f"{user.mention}'s points {points}" 
         await interactions.response.send_message(embed=BalanceEmbed)
 
 async def fetch_data(url):
@@ -145,6 +146,13 @@ async def fetch_data(url):
         return data
     else:
         return None
+    
+async def award_points(user_id,username,points):
+    if (await find(user_id)):
+        await update_db(user_id=user_id,points=points)
+    else:
+        await create_db(user_id,username)
+        await update_db(user_id=user_id,points=points)
 
 async def setup(bot: commands.Bot):
     # print("Games is loaded")
