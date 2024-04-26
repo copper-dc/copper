@@ -15,12 +15,6 @@ class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
     
-    # @app_commands.command(name="texttoimg",description="Give your prompt to generate image")
-    # async def texttoimg(self,interaction: discord.Interaction,prompt: str):
-    #     # await interaction.response.send_message("Generating: "+prompt+" ....")
-    #     imgURL = await fetch_imgURL(prompt)
-        
-    #     await interaction.response.send_message(imgURL)
 
 
     @app_commands.command(name="translate",description="Translate your language to other")
