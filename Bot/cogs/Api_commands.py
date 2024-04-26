@@ -88,10 +88,7 @@ class Api_commands(commands.Cog):
                     await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
 
 
-async def fetch_imgURL(prompt: str):
-    generator = Craiyon()
-    url = generator.generate(prompt=prompt)
-    return url.images
+
 
     
 
