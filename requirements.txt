@@ -3,3 +3,4 @@ python-dotenv
 translate
 youtube_dl
 wavelink
+motor
