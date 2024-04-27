@@ -7,15 +7,30 @@ import discord
 import os
 from discord.ext import commands
 from discord import app_commands
+import requests
 from translate import Translator
 
+
+
 waifuBaseURL = "https://api.waifu.pics/"
+RANDOMGIRLBASEURL = "https://randomuser.me/api/?gender=female"
 
 class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
     
+    @app_commands.command(name="hot-or-not",description="Rate this girl hot or not")
+    async def hotornot(self, interaction: discord.Interaction):
+        hotornotEmbed = discord.Embed(title="Rate this girl by using :thumbsup: or :thumbsdown:",colour=discord.Colour.random())
 
+        response = requests.get(RANDOMGIRLBASEURL)
+        if response.status_code == 200:
+    # Parse the JSON data
+            data = response.json()
+            large_picture_url = data['results'][0]['picture']['large']
+            hotornotEmbed.set_image(url=large_picture_url)
+        await interaction.response.send_message(embed=hotornotEmbed)
+        
 
     @app_commands.command(name="translate",description="Translate your language to other")
     @app_commands.choices( languages = [
@@ -32,7 +47,7 @@ class Api_commands(commands.Cog):
         translator = Translator(to_lang=languages)
         translation = translator.translate(text)
         await interaction.response.send_message(translation)
-
+    
     @app_commands.command(name="slash-girls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
     
     @app_commands.choices(girltype =[
@@ -90,7 +105,7 @@ class Api_commands(commands.Cog):
 
 
 
-    
+
 
 async def fetch_json(url):
     async with aiohttp.ClientSession() as session:
