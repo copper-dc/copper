@@ -4,3 +4,4 @@ translate
 youtube_dl
 wavelink
 motor
+craiyon.py
