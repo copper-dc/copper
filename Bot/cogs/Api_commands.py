@@ -21,19 +21,16 @@ class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
     
-    @app_commands.command(name="text-to-image",description="Text to Image Generator")
-    async def text_to_image(self,interaction:discord.Interaction,prompt: str):
+    @app_commands.command(name="text-to-image",description="Text to Image Generator; ")
+    async def text_to_image(self,interaction:discord.Interaction, prompt: str):
+        inter = interaction.response
+        await inter.defer(thinking=True)
         generator = Craiyon()
-        generated_images = await generator.async_generate(prompt) # Generate images
-        b64_list = await craiyon_utils.async_encode_base64(generated_images.images) # Download images from https://img.craiyon.com and store them as b64 bytestring object
-        
-        images1 = []
-        for index, image in enumerate(b64_list): # Loop through b64_list, keeping track of the index
-            img_bytes = BytesIO(base64.b64decode(image)) # Decode the image and store it as a bytes object
-            image = discord.File(img_bytes)
-            image.filename = f"result{index}.webp"
-            images1.append(image)
-            await interaction.response.send_message(files=images1)
+        generated_images = await generator.async_generate(prompt)
+        print(generated_images.images)
+        img = generated_images.images[0]
+
+        await interaction.followup.send(content=img)
         # print(url)
 
     @app_commands.command(name="hot-or-not",description="Rate this girl hot or not")
@@ -129,6 +126,7 @@ async def fetch_json(url):
         async with session.get(url) as response:
             data = await response.json()
             return data
+        
         
 async def fetch_img(imageCat: str, girltype:str, interaction: discord.Interaction):
     slashgirlsEmbeds = discord.Embed(title="Enjoy your slash girl 🤤",colour=discord.Colour.random())
