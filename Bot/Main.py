@@ -26,6 +26,7 @@ bot = commands.Bot(command_prefix='+', intents=intents)
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.activity.Game(name="Summertime Saga"))
     print(f'Logged in as {bot.user.name}')
     try:
         synced = await bot.tree.sync() #slash tree
