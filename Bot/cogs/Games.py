@@ -1,3 +1,4 @@
+import asyncio
 import random
 import aiohttp
 import discord
@@ -70,15 +71,15 @@ class Games(commands.Cog):
     
 
     @app_commands.command(name="guess",description="guess the anime/game character...")
-    async def guess(self,intercation: discord.Interaction):
-        id = random.randint(1,8)
-        updated_URL = GUESS_URL+"/"+id
+    async def guess(self, interaction: discord.Interaction):
+        id = random.randint(1,9)
+        updated_URL = GUESS_URL+"/"+str(id)
         guessEmbed = discord.Embed(title="Guess the character",colour=discord.Colour.random())
         fetched_data = await fetch_data(updated_URL)
-        img = fetched_data.get('url')
-        ans = fetched_data.get('name')
+        img = fetched_data["url"]
+        ans = fetched_data["name"]
         guessEmbed.set_image(url=img)
-        await intercation.response.send_message(guessEmbed)
+        await interaction.response.send_message(embed= guessEmbed)
 
 
 
