@@ -69,16 +69,16 @@ class Games(commands.Cog):
 
     
 
-    # @app_commands.command(name="guess",description="guess the anime/game character...")
-    # async def guess(self,intercation: discord.Interaction):
-    #     id = random.randint(1,3)
-    #     updated_URL = GUESS_URL+"/"+id
-    #     guessEmbed = discord.Embed(title="Guess the character",colour=discord.Colour.random())
-    #     fetched_data = await fetch_data(updated_URL)
-    #     img = fetched_data.get('url')
-    #     ans = fetched_data.get('name')
-    #     guessEmbed.set_image(url=img)
-    #     await intercation.response.send_message(guessEmbed)
+    @app_commands.command(name="guess",description="guess the anime/game character...")
+    async def guess(self,intercation: discord.Interaction):
+        id = random.randint(1,8)
+        updated_URL = GUESS_URL+"/"+id
+        guessEmbed = discord.Embed(title="Guess the character",colour=discord.Colour.random())
+        fetched_data = await fetch_data(updated_URL)
+        img = fetched_data.get('url')
+        ans = fetched_data.get('name')
+        guessEmbed.set_image(url=img)
+        await intercation.response.send_message(guessEmbed)
 
 
 
