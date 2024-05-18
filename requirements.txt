@@ -1,6 +1,5 @@
 discord.py
 python-dotenv
 translate
-youtube_dl
 motor
 craiyon.py
