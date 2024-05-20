@@ -1,13 +1,10 @@
-import asyncio
+import json
 import random
-import aiohttp
 import discord
 from discord.ext import commands
 from discord import app_commands
-import sys
 import requests
-from translate import Translator
-from Utils.DataBase import create_db, find, update_db, delete
+from Utils.DataBase import create_db, find, update_db
 
 RPS = ['rock','paper','scissors']
 SLOT_MACHINE =[":8ball:",":moneybag:",":coin:",":gem:",":cherries:",":money_with_wings:"]
@@ -68,19 +65,6 @@ class Games(commands.Cog):
         await  interaction.response.send_message(embed = rpsEmbeds)
 
 
-    
-
-    @app_commands.command(name="guess",description="guess the anime/game character...")
-    async def guess(self, interaction: discord.Interaction):
-        id = random.randint(1,9)
-        updated_URL = GUESS_URL+"/"+str(id)
-        guessEmbed = discord.Embed(title="Guess the character",colour=discord.Colour.random())
-        fetched_data = await fetch_data(updated_URL)
-        img = fetched_data["url"]
-        ans = fetched_data["name"]
-        guessEmbed.set_image(url=img)
-        await interaction.response.send_message(embed= guessEmbed)
-
 
 
 
@@ -121,6 +105,22 @@ class Games(commands.Cog):
             slotMachineEmbeds.set_image(url="https://c.tenor.com/nNQa-ZjLAzgAAAAC/tenor.gif")
             await award_points(user_id,username,0)
         await interaction.response.send_message(embed=slotMachineEmbeds)
+
+    
+    @app_commands.command(name="character_guess",description="Guess the anime character name by their pics")
+    async def character_guess(self, interactions: discord.Interaction):
+        
+        anime_guess_embed = discord.Embed(title="guess the Character?",colour=discord.Colour.random())
+        data = None
+        with open('JSON/anime_character.json') as f:
+            data = json.load(f)
+        random.shuffle(data)
+        anime_char_ind = 0
+        anime_char_ind+=1
+        character = data[anime_char_ind]
+        anime_guess_embed.set_image(url=character['img'])
+        await interactions.response.send_message(embed=anime_guess_embed)
+        print(character['name'])
 
     @app_commands.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
     async def view_points_cmd(self, interactions:discord.Interaction,user:discord.Member =None):
