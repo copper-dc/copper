@@ -1,4 +1,6 @@
+import asyncio
 import json
+import pprint
 import random
 import discord
 from discord.ext import commands
@@ -13,6 +15,8 @@ GUESS_URL = "http://127.0.0.1:8000/get-quiz"
 class Games(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
+        self.current_guess = None
+        self.current_interaction = None
     
     @app_commands.command(name='rps',description='Feeling lucky? Try Rock/Paper/Scissors with Aiko')
     @app_commands.choices(choices=[
@@ -108,19 +112,54 @@ class Games(commands.Cog):
 
     
     @app_commands.command(name="character_guess",description="Guess the anime character name by their pics")
-    async def character_guess(self, interactions: discord.Interaction):
-        
-        anime_guess_embed = discord.Embed(title="guess the Character?",colour=discord.Colour.random())
+    async def character_guess(self, interaction: discord.Interaction):
+        if self.current_interaction:
+            await interaction.response.send_message("A game is already in progress. Please wait for it to finish.", ephemeral=True)
+            return
+
+        self.current_interaction = interaction
+
+        anime_guess_embed = discord.Embed(title="Guess the Character?", colour=discord.Colour.random())
         data = None
         with open('JSON/anime_character.json') as f:
             data = json.load(f)
         random.shuffle(data)
         anime_char_ind = 0
-        anime_char_ind+=1
         character = data[anime_char_ind]
+        self.current_guess = character['name']  # List of possible names
+
+        # Print the correct answer in the terminal
+        print(f"Correct answer: {self.current_guess}")
+
         anime_guess_embed.set_image(url=character['img'])
-        await interactions.response.send_message(embed=anime_guess_embed)
-        print(character['name'])
+        await interaction.response.send_message(embed=anime_guess_embed)
+
+        def check(m):
+            return m.channel == interaction.channel and any(map(lambda name: m.content.lower() == name.lower(), self.current_guess))
+
+        async def notify_half_time():
+            await asyncio.sleep(15)
+            await interaction.followup.send(content="15 seconds have passed! Only 15 seconds left!")
+
+        async def wait_for_response():
+            try:
+                response = await self.bot.wait_for("message", timeout=30.0, check=check)
+                await interaction.followup.send(content=f"Congratulations {response.author.mention}! You guessed the character correctly.")
+                return True
+            except asyncio.TimeoutError:
+                return False
+
+        notify_task = self.bot.loop.create_task(notify_half_time())
+        response_received = await wait_for_response()
+
+        if response_received:
+            notify_task.cancel()
+        else:
+            await interaction.followup.send(content=f"Time's up! The correct answer was {', '.join(self.current_guess)}.")
+
+        # Reset the state
+        self.current_guess = None
+        self.current_interaction = None
 
     @app_commands.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
     async def view_points_cmd(self, interactions:discord.Interaction,user:discord.Member =None):
