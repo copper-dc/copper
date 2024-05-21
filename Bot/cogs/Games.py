@@ -113,6 +113,8 @@ class Games(commands.Cog):
     
     @app_commands.command(name="character_guess",description="Guess the anime character name by their pics")
     async def character_guess(self, interaction: discord.Interaction):
+        user_id = interaction.user.id
+        username = interaction.user.name
         if self.current_interaction:
             await interaction.response.send_message("A game is already in progress. Please wait for it to finish.", ephemeral=True)
             return
@@ -120,6 +122,9 @@ class Games(commands.Cog):
         self.current_interaction = interaction
 
         anime_guess_embed = discord.Embed(title="Guess the Character?", colour=discord.Colour.random())
+        timegoingEmbed = discord.Embed(title="Time is going :timer: only 15 seconds left!", colour=discord.Colour.random())
+        winnerEmbed = discord.Embed(title="Winner is", colour=discord.Colour.random())
+        answerEmbed = discord.Embed(title="Correct answer is ",colour=discord.Colour.random())
         data = None
         with open('JSON/anime_character.json') as f:
             data = json.load(f)
@@ -139,12 +144,14 @@ class Games(commands.Cog):
 
         async def notify_half_time():
             await asyncio.sleep(15)
-            await interaction.followup.send(content="15 seconds have passed! Only 15 seconds left!")
+            await interaction.followup.send(embed=timegoingEmbed)
 
         async def wait_for_response():
             try:
                 response = await self.bot.wait_for("message", timeout=30.0, check=check)
-                await interaction.followup.send(content=f"Congratulations {response.author.mention}! You guessed the character correctly.")
+                winnerEmbed.description = f"{interaction.user.mention}, Here is your reward $100"
+                await interaction.followup.send(embed=winnerEmbed)
+                await award_points(user_id,username,100)
                 return True
             except asyncio.TimeoutError:
                 return False
@@ -155,7 +162,8 @@ class Games(commands.Cog):
         if response_received:
             notify_task.cancel()
         else:
-            await interaction.followup.send(content=f"Time's up! The correct answer was {', '.join(self.current_guess)}.")
+            answerEmbed.description = f",".join(self.current_guess)
+            await interaction.followup.send(embed=answerEmbed)
 
         # Reset the state
         self.current_guess = None
