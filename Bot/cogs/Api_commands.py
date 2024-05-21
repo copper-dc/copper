@@ -23,15 +23,15 @@ class Api_commands(commands.Cog):
     
     @app_commands.command(name="text-to-image",description="Text to Image Generator; ")
     async def text_to_image(self,interaction:discord.Interaction, prompt: str):
-        AiEmbed = discord.Embed(title="Prompt: "+prompt, colour=discord.Colour.random())
+        AiImgEmbed = discord.Embed(title="Prompt: "+prompt, colour=discord.Colour.random())
         inter = interaction.response
         await inter.defer(thinking=True)
         generator = Craiyon()
         generated_images = await generator.async_generate(prompt)
         print(generated_images.images)
         img = generated_images.images[0]
-        AiEmbed.set_image(url=img)
-        await interaction.followup.send(embed=AiEmbed)
+        AiImgEmbed.set_image(url=img)
+        await interaction.followup.send(embed=AiImgEmbed)
         # print(url)
 
     @app_commands.command(name="hot-or-not",description="Rate this girl hot or not")
