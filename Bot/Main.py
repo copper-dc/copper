@@ -19,7 +19,7 @@ strings = ["hello","hi","yahallo","yo","yooo","good morning","good night","good 
 # Define the intents your bot will use
 intents = discord.Intents.default()
 intents.message_content = True  # Enable message events
-
+intents.voice_states = True
 
 bot = commands.Bot(command_prefix='+', intents=intents)
 

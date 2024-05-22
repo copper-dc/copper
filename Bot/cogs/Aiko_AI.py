@@ -27,5 +27,5 @@ class Aiko_AI(commands.Cog):
         
 
 async def setup(bot: commands.Bot):
-    print("Aiko_AI is loaded")
+    print("Loading Aiko's Artificial Intelligence...")
     await bot.add_cog(Aiko_AI(bot))
