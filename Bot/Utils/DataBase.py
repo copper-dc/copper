@@ -44,7 +44,7 @@ async def find(user_id, flag = None):
     
     
 
-async def update_db(user_id, points= None, name = None):
+async def update_db(user_id, points= None, name = None, flag = None):
     coll = db.User_info
     if points is not None:
         result = await coll.update_one({"uid": user_id}, {"$set": {"points": await find(user_id, flag = 1) + points}})
@@ -68,6 +68,19 @@ async def update_db(user_id, points= None, name = None):
         upoint = doc["points"]
 
         print(f"New name of {uid} is {uname}")
+
+    if points is not None and flag is not None:
+
+        result = await coll.update_one({"uid": user_id}, {"$set": {"points": points}})
+
+        print(f"updated {result.modified_count} document" )
+
+        doc = await coll.find_one({"uid": user_id})
+        uname = doc["name"]
+        upoint = doc["points"]
+
+        print(f"point of {uname} is now {upoint}")
+
     
     
 
