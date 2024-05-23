@@ -71,7 +71,7 @@ class Music(commands.Cog):
 
         await interaction.response.send_message(f"Joined {channel.name}", ephemeral=True)
 
-    @app_commands.command(name="leave", description="Bot leaves the voice channel")
+    @app_commands.command(name="disconnect", description="Disconnect the bot from voice channel.")
     async def leave(self, interaction: discord.Interaction):
         guild = interaction.guild
         voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
@@ -82,7 +82,7 @@ class Music(commands.Cog):
 
         await voice_client.disconnect()
         await interaction.response.send_message("Disconnected from the voice channel.", ephemeral=True)
-
+    
     @app_commands.command(name="play", description="Play a song from a YouTube URL")
     async def play(self, interaction: discord.Interaction, url: str):
         guild = interaction.guild
@@ -99,16 +99,37 @@ class Music(commands.Cog):
             await channel.connect()
             voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
 
-        await interaction.response.defer(ephemeral=True)  # Defer the response to avoid timeout
+        await interaction.response.defer()  # Defer the response to avoid timeout
 
         async with interaction.channel.typing():
             player = await self.YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
             voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
-
         playEmbed = discord.Embed(title="Now Playing :notes:", color=discord.Colour.random())
-        playEmbed.set_thumbnail(url="https://media.tenor.com/g2q5VyGBJPcAAAAi/musica-music.gif")
+        playEmbed.set_thumbnail(url=player.thumbnail)
+        playEmbed.set_image(url="https://media.tenor.com/ZViDCL9tx_QAAAAi/set-diet-sound-bars.gif")
         playEmbed.description = "*** " + player.title + " ***"
-        await interaction.followup.send(embed=playEmbed, ephemeral=True)  
+        await interaction.followup.send(embed=playEmbed)  
+
+    @app_commands.command(name="pause", description="Pause the currently playing song")
+    async def pause(self, interaction: discord.Interaction):
+        guild = interaction.guild
+        voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
+        if voice_client and voice_client.is_playing():
+            voice_client.pause()
+            await interaction.response.send_message("Song paused.")
+        else:
+            await interaction.response.send_message("No song is currently playing.")
+    
+    @app_commands.command(name="resume", description="Resume the paused song")
+    async def resume(self, interaction: discord.Interaction):
+        guild = interaction.guild
+        voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
+        if voice_client and voice_client.is_paused():
+            voice_client.resume()
+            await interaction.response.send_message("Song resumed.")
+        else:
+            await interaction.response.send_message("No song is currently paused.")
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Music(bot))
