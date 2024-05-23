@@ -1,12 +1,12 @@
 import asyncio
+import dis
 import json
-import pprint
 import random
 import discord
 from discord.ext import commands
 from discord import app_commands
 import requests
-from Utils.DataBase import create_db, find, update_db
+from Utils.DataBase import create_db, find, update_db,find
 
 RPS = ['rock','paper','scissors']
 SLOT_MACHINE =[":8ball:",":moneybag:",":coin:",":gem:",":cherries:",":money_with_wings:"]
@@ -68,6 +68,16 @@ class Games(commands.Cog):
                 await award_points(user_id, username, 0)
         await  interaction.response.send_message(embed = rpsEmbeds)
 
+    @app_commands.command(name="transfer",description="Transfer money to your friends, waifu, business partner too...")
+    async def transfer_money(self, interactions: discord.Interaction, user: discord.Member, amount: int):
+        new_total_point = await find(interactions.user.id,1) -  amount
+        user_id = user.id
+        username = user.name
+        await update_db(interactions.user.id,new_total_point)
+        await award_points(user_id,username,amount)
+        transferEmbed = discord.Embed(title="Transaction Successfull :white_check_mark:",colour=discord.Colour.green())
+        transferEmbed.description = interactions.user.mention+f" transferred ${amount}, to "+ user.mention
+        await interactions.response.send_message(embed=transferEmbed)
 
 
 
@@ -184,7 +194,7 @@ class Games(commands.Cog):
         if type(points) == str:
             BalanceEmbed.description = f"{user.mention} hasnt participated in any games yet."
         else:
-            BalanceEmbed.description = f"{user.mention}'s points {points}" 
+            BalanceEmbed.description = f"{user.mention}'s points ${points}" 
         await interactions.response.send_message(embed=BalanceEmbed)
 
 async def fetch_data(url):

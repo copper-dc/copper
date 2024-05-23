@@ -46,22 +46,6 @@ class Api_commands(commands.Cog):
             hotornotEmbed.set_image(url=large_picture_url)
         await interaction.response.send_message(embed=hotornotEmbed)
         
-
-    @app_commands.command(name="translate",description="Translate your language to other")
-    @app_commands.choices( languages = [
-        app_commands.Choice(name="English", value="en"),
-        app_commands.Choice(name="Japanese", value="ja"),
-        app_commands.Choice(name="Malayalam", value="ml"),
-        app_commands.Choice(name="Tamil", value="ta"),
-        app_commands.Choice(name="Spanish", value="es"),
-        app_commands.Choice(name="Chinese",value="zh"),
-        app_commands.Choice(name="Korean", value="ko"),
-        app_commands.Choice(name="French",value="fr")
-    ])
-    async def translate(self,interaction: discord.Interaction,text: str,languages: str):
-        translator = Translator(to_lang=languages)
-        translation = translator.translate(text)
-        await interaction.response.send_message(translation)
     
     @app_commands.command(name="slash-girls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
     
