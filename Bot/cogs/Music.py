@@ -84,7 +84,7 @@ class Music(commands.Cog):
         await interaction.response.send_message("Disconnected from the voice channel.", ephemeral=True)
     
     @app_commands.command(name="play", description="Play a song from a YouTube URL")
-    async def play(self, interaction: discord.Interaction, url: str):
+    async def play(self, interaction: discord.Interaction, song: str):
         guild = interaction.guild
         voice_state = interaction.user.voice
 
@@ -102,7 +102,7 @@ class Music(commands.Cog):
         await interaction.response.defer()  # Defer the response to avoid timeout
 
         async with interaction.channel.typing():
-            player = await self.YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+            player = await self.YTDLSource.from_url(song, loop=self.bot.loop, stream=True)
             voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
         playEmbed = discord.Embed(title="Now Playing :notes:", color=discord.Colour.random())
         playEmbed.set_thumbnail(url=player.thumbnail)
@@ -127,6 +127,8 @@ class Music(commands.Cog):
         if voice_client and voice_client.is_paused():
             voice_client.resume()
             await interaction.response.send_message("Song resumed.")
+        elif voice_client and voice_client.is_playing():
+            await interaction.response.send_message("Song is already playing.")
         else:
             await interaction.response.send_message("No song is currently paused.")
 

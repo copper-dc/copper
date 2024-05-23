@@ -7,4 +7,3 @@ g4f
 nest_asyncio
 wavelink
 yt-dlp
-pafy
