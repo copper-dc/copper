@@ -73,11 +73,21 @@ class Games(commands.Cog):
         new_total_point = await find(interactions.user.id,1) -  amount
         user_id = user.id
         username = user.name
-        await update_db(interactions.user.id,new_total_point)
-        await award_points(user_id,username,amount)
-        transferEmbed = discord.Embed(title="Transaction Successfull :white_check_mark:",colour=discord.Colour.green())
-        transferEmbed.description = interactions.user.mention+f" transferred ${amount}, to "+ user.mention
-        await interactions.response.send_message(embed=transferEmbed)
+        current_points = await find(user_id= interactions.user.id, flag=1)
+        if (amount > 0 and interactions.user != user):
+            if (str(user_id) == "1180739731890380861"):
+                await interactions.response.send_message("hmph i dont need it!")
+                return
+            if (current_points >= amount):
+                await update_db(user_id=interactions.user.id, points=new_total_point, flag="update hehe")
+                await award_points(user_id,username,amount)
+                transferEmbed = discord.Embed(title="Transaction Successfull :white_check_mark:",colour=discord.Colour.green())
+                transferEmbed.description = interactions.user.mention+f" transferred ${amount}, to "+ user.mention
+                await interactions.response.send_message(embed=transferEmbed)
+            else:
+                await interactions.response.send_message("you dont have enough baka! ")
+        else:
+            await interactions.response.send_message("CHEATING")
 
 
 
