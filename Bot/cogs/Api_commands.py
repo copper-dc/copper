@@ -16,6 +16,8 @@ from craiyon import Craiyon, craiyon_utils
 
 waifuBaseURL = "https://api.waifu.pics/"
 RANDOMGIRLBASEURL = "https://randomuser.me/api/?gender=female"
+RANDOMCATBASEURL = "https://api.thecatapi.com/v1/images/search"
+RANDOMDOGBASEURL = "https://api.thedogapi.com/v1/images/search"
 
 class Api_commands(commands.Cog):
     def __init__(self,bot):
@@ -33,6 +35,27 @@ class Api_commands(commands.Cog):
         AiImgEmbed.set_image(url=img)
         await interaction.followup.send(embed=AiImgEmbed)
         # print(url)
+    
+    @app_commands.command(name="random-cat",description="Generate random cat pictures....")
+    async def random_cat(self, interaction: discord.Interaction):
+        catEmbed = discord.Embed(title="Meow :cat:",colour=discord.Colour.random())
+        response = requests.get(RANDOMCATBASEURL)
+        if response.status_code == 200:
+            data = response.json()
+            img_url = data[0]['url']
+            catEmbed.set_image(url=img_url)
+        await interaction.response.send_message(embed=catEmbed)
+
+    @app_commands.command(name="random-dog",description="Generate random cat pictures....")
+    async def random_cat(self, interaction: discord.Interaction):
+        dogEmbed = discord.Embed(title="Bow Wow Wow :dog:",colour=discord.Colour.random())
+        response = requests.get(RANDOMDOGBASEURL)
+        if response.status_code == 200:
+            data = response.json()
+            img_url = data[0]['url']
+            dogEmbed.set_image(url=img_url)
+        await interaction.response.send_message(embed=dogEmbed)
+
 
     @app_commands.command(name="hot-or-not",description="Rate this girl hot or not")
     async def hotornot(self, interaction: discord.Interaction):
