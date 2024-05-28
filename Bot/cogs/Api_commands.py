@@ -46,7 +46,7 @@ class Api_commands(commands.Cog):
             catEmbed.set_image(url=img_url)
         await interaction.response.send_message(embed=catEmbed)
 
-    @app_commands.command(name="random-dog",description="Generate random cat pictures....")
+    @app_commands.command(name="random-dog",description="Generate random dog pictures....")
     async def random_cat(self, interaction: discord.Interaction):
         dogEmbed = discord.Embed(title="Bow Wow Wow :dog:",colour=discord.Colour.random())
         response = requests.get(RANDOMDOGBASEURL)
