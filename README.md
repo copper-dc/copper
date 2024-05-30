@@ -1,5 +1,6 @@
 
-![Aiko-banner](https://github.com/Aik0B0t/Aiko/assets/115330277/52128db6-969c-449d-8a46-45ca977ef1f8)
+![aiko-banner](https://github.com/Aiko-Discord-Bot/.github/assets/115330277/876ad77a-f6f6-43ef-98b0-f771bc0625dd)
+
 
 # Aiko Discord Bot
 
