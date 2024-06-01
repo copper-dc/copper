@@ -18,11 +18,32 @@ waifuBaseURL = "https://api.waifu.pics/"
 RANDOMGIRLBASEURL = "https://randomuser.me/api/?gender=female"
 RANDOMCATBASEURL = "https://api.thecatapi.com/v1/images/search"
 RANDOMDOGBASEURL = "https://api.thedogapi.com/v1/images/search"
+GITHUBBASEAPI = "https://api.github.com/users/"
 
 class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
     
+    @app_commands.command(name="github-profile",description="Get the github descriptions of the user.")
+    async def github_profile(self, interaction: discord.Interaction, username:str):
+        updatedGITHUBAPIURL = GITHUBBASEAPI+username
+        response = requests.get(updatedGITHUBAPIURL)
+        if response.status_code == 200:
+            data = response.json()
+            avatar_url = data['avatar_url']
+            followers = data['followers']
+            following = data['following']
+            bio = data['bio']
+            user = data['login']
+            GithubEmbed = discord.Embed(title="**"+user+"**",colour=discord.Colour.random())
+            GithubEmbed.description = bio
+            GithubEmbed.add_field(name="Followers: ",value=followers,inline=True)
+            GithubEmbed.add_field(name="Following: ",value=following,inline=True)
+            GithubEmbed.set_thumbnail(url=avatar_url)
+            await interaction.response.send_message(embed=GithubEmbed)
+        else:
+            await interaction.response.send_message("User not found!")
+
     @app_commands.command(name="text-to-image",description="Text to Image Generator; ")
     async def text_to_image(self,interaction:discord.Interaction, prompt: str):
         AiImgEmbed = discord.Embed(title="Prompt: "+prompt, colour=discord.Colour.random())
