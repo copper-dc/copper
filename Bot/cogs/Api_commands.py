@@ -76,20 +76,7 @@ class Api_commands(commands.Cog):
             img_url = data[0]['url']
             dogEmbed.set_image(url=img_url)
         await interaction.response.send_message(embed=dogEmbed)
-
-
-    @app_commands.command(name="hot-or-not",description="Rate this girl hot or not")
-    async def hotornot(self, interaction: discord.Interaction):
-        hotornotEmbed = discord.Embed(title="Rate this girl by using :thumbsup: or :thumbsdown:",colour=discord.Colour.random())
-
-        response = requests.get(RANDOMGIRLBASEURL)
-        if response.status_code == 200:
-    # Parse the JSON data
-            data = response.json()
-            large_picture_url = data['results'][0]['picture']['large']
-            hotornotEmbed.set_image(url=large_picture_url)
-        await interaction.response.send_message(embed=hotornotEmbed)
-        
+     
     
     @app_commands.command(name="slash-girls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
     
