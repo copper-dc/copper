@@ -45,18 +45,6 @@ class Api_commands(commands.Cog):
         else:
             await interaction.response.send_message("User not found!")
 
-    @app_commands.command(name="text-to-image",description="Text to Image Generator; ")
-    async def text_to_image(self,interaction:discord.Interaction, prompt: str):
-        AiImgEmbed = discord.Embed(title="Prompt: "+prompt, colour=discord.Colour.random())
-        inter = interaction.response
-        await inter.defer(thinking=True)
-        generator = Craiyon()
-        generated_images = await generator.async_generate(prompt)
-        print(generated_images.images)
-        img = generated_images.images[0]
-        AiImgEmbed.set_image(url=img)
-        await interaction.followup.send(embed=AiImgEmbed)
-        # print(url)
     
     @app_commands.command(name="random-cat",description="Generate random cat pictures....")
     async def random_cat(self, interaction: discord.Interaction):
