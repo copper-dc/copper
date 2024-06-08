@@ -3,7 +3,8 @@ import os
 from typing import Final
 from discord.ext import commands
 from dotenv import load_dotenv
-
+from pyfiglet import Figlet
+from termcolor import colored
 
 load_dotenv()
 
@@ -56,6 +57,8 @@ async def on_message(message):
             break
 
 async def load():
+    f = Figlet(font='larry3d')
+    print(colored(f.renderText('A I K O'),color="red"))
     for filename in os.listdir("Bot/cogs"):
         if filename.endswith('.py'):
             print(f"loading {filename}")
