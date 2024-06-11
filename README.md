@@ -1,6 +1,11 @@
 
-![aiko-banner](https://github.com/Aiko-Discord-Bot/.github/assets/115330277/876ad77a-f6f6-43ef-98b0-f771bc0625dd)
+<p align="center">
+  <a href="https://github.com/Aiko-Discord-Bot/Aiko">
+  <img src="assets/Aiko.png" alt="Aiko logo" height="100" />
+     </a>
 
+   <h3 align="center">Aiko</h3>
+   </p>
 
 # Aiko Discord Bot
 
