@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="https://github.com/Aiko-Discord-Bot/Aiko">
-  <img src="assets/Aiko.png" alt="Aiko logo" height="100" />
+  <img src="assets/Aiko.png" alt="Aiko logo" height="400"/>
      </a>
 
    <h3 align="center">Aiko</h3>
