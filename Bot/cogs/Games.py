@@ -189,7 +189,7 @@ class Games(commands.Cog):
         self.current_guess = None
         self.current_interaction = None
 
-    @app_commands.command(name='view_points',description='Shows the points you earned from the games you won against the bot')
+    @app_commands.command(name='balance',description='Shows the points you earned from the games you won against the bot')
     async def view_points_cmd(self, interactions:discord.Interaction,user:discord.Member =None):
         BalanceEmbed = discord.Embed(title="Your wallet balance",colour=discord.Colour.random())
         BalanceEmbed.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")

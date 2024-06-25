@@ -20,7 +20,7 @@ RANDOMGIRLBASEURL = "https://randomuser.me/api/?gender=female"
 RANDOMCATBASEURL = "https://api.thecatapi.com/v1/images/search"
 RANDOMDOGBASEURL = "https://api.thedogapi.com/v1/images/search"
 GITHUBBASEAPI = "https://api.github.com/users/"
-
+RANDOMJOKESBASEURL = "https://api.chucknorris.io/jokes/random"
 class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
@@ -45,7 +45,14 @@ class Api_commands(commands.Cog):
         else:
             await interaction.response.send_message("User not found!")
 
-    
+    @app_commands.command(name="joke",description="random jokes by chucknorris")
+    async def random_jokes(Self, interaction: discord.Interaction):
+        response = requests.get(RANDOMJOKESBASEURL)
+        data = response.json()
+        value = data['value']
+        jokeEmbed = discord.Embed(title=value,colour=discord.Colour.random())
+        await interaction.response.send_message(embed=jokeEmbed)
+
     @app_commands.command(name="random-cat",description="Generate random cat pictures....")
     async def random_cat(self, interaction: discord.Interaction):
         catEmbed = discord.Embed(title="Meow :cat:",colour=discord.Colour.random())
