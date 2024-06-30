@@ -2,8 +2,10 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord import app_commands
+import requests
 import yt_dlp as youtube_dl
 from discord.ui import Button, View
+from googletrans import Translator
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -60,6 +62,27 @@ class Music(commands.Cog):
 
         await voice_client.disconnect()
         await interaction.response.send_message("Disconnected from the voice channel.", ephemeral=True)
+
+    @app_commands.command(name="lyrics", description="get lyrics of the song you want")
+    async def get_lyrics(self, interaction: discord.Interaction, artist: str, song: str):
+        base_lyrics_url = "https://api.lyrics.ovh/v1/"+artist+"/"+song
+        response = requests.get(base_lyrics_url)
+        data = response.json()
+        lyrics = data.get("lyrics","")
+        first_line = lyrics.split('\n')[0]
+
+        main_line = ""
+        for i in lyrics[1:]:
+            main_line+=i
+        translator = Translator()
+
+
+        first_line_translated = translator.translate(first_line, src='fr', dest='en').text
+
+        lyricsEmbed = discord.Embed(title=first_line_translated,colour=discord.Colour.random())
+
+        lyricsEmbed.description = main_line
+        await interaction.response.send_message(embed=lyricsEmbed)
 
     @app_commands.command(name="play", description="Play a song from a YouTube URL")
     async def play(self, interaction: discord.Interaction, song: str):

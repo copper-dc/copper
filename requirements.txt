@@ -1,6 +1,6 @@
 discord.py
 python-dotenv
-translate
+googletrans==4.0.0-rc1
 motor
 craiyon.py
 g4f
