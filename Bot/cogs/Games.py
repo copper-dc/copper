@@ -131,7 +131,7 @@ class Games(commands.Cog):
                 await award_points(user_id,username,0)
             await interaction.response.send_message(embed=slotMachineEmbeds)
         else:
-            await interaction.response.send_message("The base maoney to play this game is $100")
+            await interaction.response.send_message("The base money to play this game is $100")
 
     
     @app_commands.command(name="character_guess",description="Guess the anime character name by their pics")
