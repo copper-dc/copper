@@ -93,42 +93,45 @@ class Games(commands.Cog):
 
 
     @app_commands.command(name='slot',description="Let's see, How much luck do you have...")
-    async def slot(self,interaction:discord.Interaction):
-        user_id = interaction.user.id
-        username = interaction.user.name
-        special_emoji = ":money_with_wings:"
-        first_box = random.choice(SLOT_MACHINE)
-        second_box = random.choice(SLOT_MACHINE)
-        third_box = random.choice(SLOT_MACHINE)
+    async def slot(self,interaction:discord.Interaction, money: int):
+        if(money==100):
+            user_id = interaction.user.id
+            username = interaction.user.name
+            special_emoji = ":money_with_wings:"
+            first_box = random.choice(SLOT_MACHINE)
+            second_box = random.choice(SLOT_MACHINE)
+            third_box = random.choice(SLOT_MACHINE)
 
-        jackpot = "500"
-        winningpoint = "250"
-        loserpoint = "0"
+            jackpot = "500"
+            winningpoint = "250"
+            loserpoint = "0"
 
-        slotMachineEmbeds = discord.Embed(title="Jungle Jackpot: Spin Your Way to Riches in the Wild!",colour=discord.Colour.random())
-        slotMachineEmbeds.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
-        if(first_box == second_box == third_box == special_emoji):
-            winning_line = first_box+"  "+second_box+"  "+third_box
-            slotMachineEmbeds.description = winning_line
-            slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + jackpot)
-            slotMachineEmbeds.set_footer(text="JACKPOT BITCH! You're a winner with this fantastic slot line!✨")
-            slotMachineEmbeds.set_image(url="https://c.tenor.com/CSWyS926r04AAAAd/tenor.gif")
-            await award_points(user_id,username,500)
-        elif(first_box == second_box or first_box == third_box or second_box == third_box):
-            winning_line = first_box+"  "+second_box+"  "+third_box
-            slotMachineEmbeds.description = winning_line
-            slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + winningpoint)
-            slotMachineEmbeds.set_footer(text="You have less luck than meee!")
-            slotMachineEmbeds.set_image(url="https://media.tenor.com/2euepBwORpgAAAAi/diluc-kaeya.gif")
-            await award_points(user_id,username,250)
+            slotMachineEmbeds = discord.Embed(title="Jungle Jackpot: Spin Your Way to Riches in the Wild!",colour=discord.Colour.random())
+            slotMachineEmbeds.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
+            if(first_box == second_box == third_box == special_emoji):
+                winning_line = first_box+"  "+second_box+"  "+third_box
+                slotMachineEmbeds.description = winning_line
+                slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + jackpot)
+                slotMachineEmbeds.set_footer(text="JACKPOT BITCH! You're a winner with this fantastic slot line!✨")
+                slotMachineEmbeds.set_image(url="https://c.tenor.com/CSWyS926r04AAAAd/tenor.gif")
+                await award_points(user_id,username,500)
+            elif(first_box == second_box or first_box == third_box or second_box == third_box):
+                winning_line = first_box+"  "+second_box+"  "+third_box
+                slotMachineEmbeds.description = winning_line
+                slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + winningpoint)
+                slotMachineEmbeds.set_footer(text="You have less luck than meee!")
+                slotMachineEmbeds.set_image(url="https://media.tenor.com/2euepBwORpgAAAAi/diluc-kaeya.gif")
+                await award_points(user_id,username,250)
+            else:
+                winning_line = first_box+"  "+second_box+"  "+third_box
+                slotMachineEmbeds.description = winning_line
+                slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + loserpoint)
+                slotMachineEmbeds.set_footer(text="You are a loser bitch...")
+                slotMachineEmbeds.set_image(url="https://c.tenor.com/nNQa-ZjLAzgAAAAC/tenor.gif")
+                await award_points(user_id,username,0)
+            await interaction.response.send_message(embed=slotMachineEmbeds)
         else:
-            winning_line = first_box+"  "+second_box+"  "+third_box
-            slotMachineEmbeds.description = winning_line
-            slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + loserpoint)
-            slotMachineEmbeds.set_footer(text="You are a loser bitch...")
-            slotMachineEmbeds.set_image(url="https://c.tenor.com/nNQa-ZjLAzgAAAAC/tenor.gif")
-            await award_points(user_id,username,0)
-        await interaction.response.send_message(embed=slotMachineEmbeds)
+            await interaction.response.send_message("The base maoney to play this game is $100")
 
     
     @app_commands.command(name="character_guess",description="Guess the anime character name by their pics")
