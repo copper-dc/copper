@@ -94,7 +94,7 @@ class Games(commands.Cog):
 
     @app_commands.command(name='slot',description="Let's see, How much luck do you have...")
     async def slot(self,interaction:discord.Interaction, money: int):
-        if(money==100):
+        if(money>=100):
             user_id = interaction.user.id
             username = interaction.user.name
             special_emoji = ":money_with_wings:"
@@ -102,6 +102,8 @@ class Games(commands.Cog):
             second_box = random.choice(SLOT_MACHINE)
             third_box = random.choice(SLOT_MACHINE)
 
+            current_points = await find(user_id= interaction.user.id, flag=1)
+            new_total_point = await find(interaction.user.id,1) -  money
             jackpot = "500"
             winningpoint = "250"
             loserpoint = "0"
@@ -113,25 +115,27 @@ class Games(commands.Cog):
                 slotMachineEmbeds.description = winning_line
                 slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + jackpot)
                 slotMachineEmbeds.set_footer(text="JACKPOT BITCH! You're a winner with this fantastic slot line!✨")
-                slotMachineEmbeds.set_image(url="https://c.tenor.com/CSWyS926r04AAAAd/tenor.gif")
+                await update_db(user_id=interaction.user.id, points=new_total_point, flag="update hehe")
                 await award_points(user_id,username,500)
+
             elif(first_box == second_box or first_box == third_box or second_box == third_box):
                 winning_line = first_box+"  "+second_box+"  "+third_box
                 slotMachineEmbeds.description = winning_line
                 slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + winningpoint)
                 slotMachineEmbeds.set_footer(text="You have less luck than meee!")
-                slotMachineEmbeds.set_image(url="https://media.tenor.com/2euepBwORpgAAAAi/diluc-kaeya.gif")
+                await update_db(user_id=interaction.user.id, points=new_total_point, flag="update hehe")
                 await award_points(user_id,username,250)
             else:
                 winning_line = first_box+"  "+second_box+"  "+third_box
                 slotMachineEmbeds.description = winning_line
                 slotMachineEmbeds.add_field(name="Your Reward for this slot", value=":coin: " + loserpoint)
                 slotMachineEmbeds.set_footer(text="You are a loser bitch...")
-                slotMachineEmbeds.set_image(url="https://c.tenor.com/nNQa-ZjLAzgAAAAC/tenor.gif")
+                await update_db(user_id=interaction.user.id, points=new_total_point, flag="update hehe")
                 await award_points(user_id,username,0)
             await interaction.response.send_message(embed=slotMachineEmbeds)
         else:
-            await interaction.response.send_message("The base money to play this game is $100")
+            moneyEmbed = discord.Embed(title="The minimum amount to play this game is $100",colour=discord.Colour.random())
+            await interaction.response.send_message(embed=moneyEmbed)
 
     
     @app_commands.command(name="character_guess",description="Guess the anime character name by their pics")
