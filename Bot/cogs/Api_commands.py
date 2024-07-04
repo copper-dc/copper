@@ -25,25 +25,6 @@ class Api_commands(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
     
-    @app_commands.command(name="github-profile",description="Get the github descriptions of the user.")
-    async def github_profile(self, interaction: discord.Interaction, username:str):
-        updatedGITHUBAPIURL = GITHUBBASEAPI+username
-        response = requests.get(updatedGITHUBAPIURL)
-        if response.status_code == 200:
-            data = response.json()
-            avatar_url = data['avatar_url']
-            followers = data['followers']
-            following = data['following']
-            bio = data['bio']
-            user = data['login']
-            GithubEmbed = discord.Embed(title="**"+user+"**",colour=discord.Colour.random())
-            GithubEmbed.description = bio
-            GithubEmbed.add_field(name="Followers: ",value=followers,inline=True)
-            GithubEmbed.add_field(name="Following: ",value=following,inline=True)
-            GithubEmbed.set_thumbnail(url=avatar_url)
-            await interaction.response.send_message(embed=GithubEmbed)
-        else:
-            await interaction.response.send_message("User not found!")
 
     @app_commands.command(name="joke",description="random jokes by chucknorris")
     async def random_jokes(Self, interaction: discord.Interaction):
@@ -52,26 +33,6 @@ class Api_commands(commands.Cog):
         value = data['value']
         jokeEmbed = discord.Embed(title=value,colour=discord.Colour.random())
         await interaction.response.send_message(embed=jokeEmbed)
-
-    @app_commands.command(name="random-cat",description="Generate random cat pictures....")
-    async def random_cat(self, interaction: discord.Interaction):
-        catEmbed = discord.Embed(title="Meow :cat:",colour=discord.Colour.random())
-        response = requests.get(RANDOMCATBASEURL)
-        if response.status_code == 200:
-            data = response.json()
-            img_url = data[0]['url']
-            catEmbed.set_image(url=img_url)
-        await interaction.response.send_message(embed=catEmbed)
-
-    @app_commands.command(name="random-dog",description="Generate random dog pictures....")
-    async def random_cat(self, interaction: discord.Interaction):
-        dogEmbed = discord.Embed(title="Bow Wow Wow :dog:",colour=discord.Colour.random())
-        response = requests.get(RANDOMDOGBASEURL)
-        if response.status_code == 200:
-            data = response.json()
-            img_url = data[0]['url']
-            dogEmbed.set_image(url=img_url)
-        await interaction.response.send_message(embed=dogEmbed)
      
     
     @app_commands.command(name="slash-girls",description='Slash Girls? More like smashgirls; Generates random waifu image of your choice.')
