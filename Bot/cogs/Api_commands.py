@@ -1,18 +1,8 @@
-import asyncio
-import base64
-from datetime import date
-from io import BytesIO
-from operator import ge
-import random
 import aiohttp
-from click import prompt
 import discord
-import os
 from discord.ext import commands
-from discord import InteractionResponse, app_commands
+from discord import app_commands
 import requests
-from translate import Translator
-from craiyon import Craiyon, craiyon_utils
 
 
 waifuBaseURL = "https://api.waifu.pics/"

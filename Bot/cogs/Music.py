@@ -101,20 +101,18 @@ class Music(commands.Cog):
             await channel.connect()
             voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
 
-        await interaction.response.defer()  # Defer the response to avoid timeout
+        await interaction.response.defer()  
 
         try:
             async with interaction.channel.typing():
                 player = await self.YTDLSource.from_url(song, loop=self.bot.loop, stream=True)
                 voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
 
-            # Create the embed with the music info
             play_embed = discord.Embed(title="Now Playing :notes:", color=discord.Colour.random())
             play_embed.set_thumbnail(url="https://media.tenor.com/ZViDCL9tx_QAAAAi/set-diet-sound-bars.gif")
             play_embed.set_image(url=player.thumbnail)
             play_embed.description = "*** " + player.title + " ***"
 
-            # Create buttons for pause and resume
             pause_button = Button(label="❚❚", style=discord.ButtonStyle.green)
 
             async def pause_callback(interaction: discord.Interaction):
@@ -137,7 +135,7 @@ class Music(commands.Cog):
             view.add_item(pause_button)
 
 
-            await interaction.followup.send(embed=play_embed, view=view)  # Send follow-up message
+            await interaction.followup.send(embed=play_embed, view=view)  
         except Exception as e:
             await interaction.followup.send(f"An error occurred: {e}")
 
