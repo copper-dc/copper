@@ -1,6 +1,5 @@
 discord.py
 python-dotenv
-googletrans==4.0.0-rc1
 motor
 craiyon.py
 g4f
@@ -9,3 +8,4 @@ yt-dlp
 pynacl
 pyfiglet
 termcolor
+azapi
