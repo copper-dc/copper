@@ -38,7 +38,7 @@ class Music(commands.Cog):
             self.data = data
             self.title = data.get('title')
             self.url = data.get('url')
-            self.thumbnail = data.get('thumbnail', 'https://via.placeholder.com/150')  # Default thumbnail if not present
+            self.thumbnail = data.get('thumbnail', 'https://via.placeholder.com/150') 
 
         @classmethod
         async def from_url(cls, url, *, loop=None, stream=False):
@@ -62,10 +62,7 @@ class Music(commands.Cog):
 
         await voice_client.disconnect()
         await interaction.response.send_message("Disconnected from the voice channel.", ephemeral=True)
-
-    
-
-        
+   
 
     @app_commands.command(name="play", description="Play a song from a YouTube URL")
     async def play(self, interaction: discord.Interaction, song: str):

@@ -158,9 +158,8 @@ class Games(commands.Cog):
         random.shuffle(data)
         anime_char_ind = 0
         character = data[anime_char_ind]
-        self.current_guess = character['name']  # List of possible names
+        self.current_guess = character['name'] 
 
-        # Print the correct answer in the terminal
         print(f"Correct answer: {self.current_guess}")
 
         anime_guess_embed.set_image(url=character['img'])
@@ -192,7 +191,6 @@ class Games(commands.Cog):
             answerEmbed.description = f",".join(self.current_guess)
             await interaction.followup.send(embed=answerEmbed)
 
-        # Reset the state
         self.current_guess = None
         self.current_interaction = None
 
@@ -230,5 +228,4 @@ async def award_points(user_id,username,points):
         await update_db(user_id=user_id,points=points)
 
 async def setup(bot: commands.Bot):
-    # print("Games is loaded")
     await bot.add_cog(Games(bot))

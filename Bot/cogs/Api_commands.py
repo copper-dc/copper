@@ -6,10 +6,6 @@ import requests
 
 
 waifuBaseURL = "https://api.waifu.pics/"
-RANDOMGIRLBASEURL = "https://randomuser.me/api/?gender=female"
-RANDOMCATBASEURL = "https://api.thecatapi.com/v1/images/search"
-RANDOMDOGBASEURL = "https://api.thedogapi.com/v1/images/search"
-GITHUBBASEAPI = "https://api.github.com/users/"
 RANDOMJOKESBASEURL = "https://api.chucknorris.io/jokes/random"
 class Api_commands(commands.Cog):
     def __init__(self,bot):
@@ -78,10 +74,6 @@ class Api_commands(commands.Cog):
                         await interaction.response.send_message("Try in a NSFW channel!")
                 elif imageCategory == "sfw":
                     await fetch_img(imageCat=imageCategory, girltype=girltype, interaction=interaction)
-
-
-
-
 
 
 async def fetch_json(url):

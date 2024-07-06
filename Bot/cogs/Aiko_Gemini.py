@@ -35,6 +35,7 @@ class Aiko_Gemini(commands.Cog):
         response = chat_session.send_message(prompt)
         geminiEmbed = discord.Embed(title="AI(Aiko's Intelligence) ", colour=discord.Colour.random())
         geminiEmbed.description = response.text
+        geminiEmbed.set_thumbnail(url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThr7qrIazsvZwJuw-uZCtLzIjaAyVW_ZrlEQ&s")
         await interaction.followup.send(embed=geminiEmbed)
 
 async def setup(bot: commands.Bot):
