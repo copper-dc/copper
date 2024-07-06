@@ -63,8 +63,7 @@ class Music(commands.Cog):
         await voice_client.disconnect()
         await interaction.response.send_message("Disconnected from the voice channel.", ephemeral=True)
 
-    @app_commands.command(name="lyrics", description="get lyrics of the song you want")
-    async def get_lyrics(self, interaction: discord.Interaction, artist: str, song: str):
+    
 
         
 
