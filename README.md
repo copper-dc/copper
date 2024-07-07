@@ -11,7 +11,7 @@
 
 Aiko is a customizable Discord bot developed to enhance your Discord server with various useful features and functionalities.
 > [!IMPORTANT]
-> We decided to change all our code base and make that fully structured, organised and effiecient.
+> We decided to change all our code base and make that fully structured, organised and efficient.
 
 ## Features
 
