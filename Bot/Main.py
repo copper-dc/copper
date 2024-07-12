@@ -27,7 +27,7 @@ bot = commands.Bot(command_prefix='+', intents=intents)
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.activity.Game(name="Summertime Saga"))
+    await bot.change_presence(activity=discord.activity.watching("over you!"))
     print(f'Logged in as {bot.user.name}')
     try:
         synced = await bot.tree.sync() #slash tree
@@ -58,7 +58,7 @@ async def on_message(message):
 
 async def load():
     f = Figlet(font='larry3d')
-    print(colored(f.renderText('A I K O'),color="red"))
+    print(colored(f.renderText('C O P P E R'),color="red"))
     for filename in os.listdir("Bot/cogs"):
         if filename.endswith('.py'):
             print(f"loading {filename}")

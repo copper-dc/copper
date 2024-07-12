@@ -25,18 +25,17 @@ chat_session = model.start_chat(
 )
 
 
-class Aiko_Gemini(commands.Cog):
+class Copper_Gemini(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.command(name="ask-aiko", description="Ask AI(Aiko's Intelligence)")
-    async def ask_aiko(self, interaction: discord.Interaction, prompt: str):
+    @app_commands.command(name="ask-copper", description="Ask AI(copper's Intelligence)")
+    async def ask_copper(self, interaction: discord.Interaction, prompt: str):
         await interaction.response.defer() 
         response = chat_session.send_message(prompt)
-        geminiEmbed = discord.Embed(title="AI(Aiko's Intelligence) ", colour=discord.Colour.random())
+        geminiEmbed = discord.Embed(title="AI(copper's Intelligence) ", colour=discord.Colour.random())
         geminiEmbed.description = response.text
-        geminiEmbed.set_thumbnail(url="https://media.tenor.com/zqH4CpMeg7IAAAAi/ai-artificial-intelligence.gif")
         await interaction.followup.send(embed=geminiEmbed)
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Aiko_Gemini(bot))
+    await bot.add_cog(Copper_Gemini(bot))
