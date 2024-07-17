@@ -1,7 +1,6 @@
 discord.py
 python-dotenv
 motor
-craiyon.py
 g4f
 nest_asyncio
 yt-dlp

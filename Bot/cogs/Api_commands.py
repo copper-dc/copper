@@ -21,14 +21,14 @@ class Api_commands(commands.Cog):
      
     
         
-async def is_nsfw(channel: discord.Interaction.channel):
-    if isinstance(channel,discord.TextChannel):
-        if channel.nsfw:
-            return True
+    async def is_nsfw(channel: discord.Interaction.channel):
+        if isinstance(channel,discord.TextChannel):
+            if channel.nsfw:
+                return True
+            else:
+                return False
         else:
-            return False
-    else:
-        return "bruh"
+            return "bruh"
         
 async def setup(bot: commands.Bot):
     # print("Api_commands is loaded")

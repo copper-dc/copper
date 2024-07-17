@@ -36,6 +36,13 @@ class Copper_Gemini(commands.Cog):
         geminiEmbed = discord.Embed(title="AI(copper's Intelligence) ", colour=discord.Colour.random())
         geminiEmbed.description = response.text
         await interaction.followup.send(embed=geminiEmbed)
+    
+    @app_commands.command(name="reset-copper", description="Reset AI(copper's Intelligence)")
+    @app_commands.AppCommandPermissions(guild=[app_commands.PermissionType.administrator])
+    async def reset_copper(self, interaction: discord.Interaction):
+        chat_session.reset()
+        await interaction.response.send_message("AI(copper's Intelligence) has been reset")
+        print("AI(copper's Intelligence) has been reset")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Copper_Gemini(bot))

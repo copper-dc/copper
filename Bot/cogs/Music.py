@@ -2,10 +2,8 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord import app_commands
-import requests
 import yt_dlp as youtube_dl
 from discord.ui import Button, View
-import azapi
 
 class Music(commands.Cog):
     def __init__(self, bot):
