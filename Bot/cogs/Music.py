@@ -83,11 +83,12 @@ class Music(commands.Cog):
 
         try:
             async with interaction.channel.typing():
+                song = song+" official audio"
                 player = await self.YTDLSource.from_url(song, loop=self.bot.loop, stream=True)
                 voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
 
             play_embed = discord.Embed(title="Now Playing :notes:", color=discord.Colour.random())
-            play_embed.set_thumbnail(url="https://media.tenor.com/ZViDCL9tx_QAAAAi/set-diet-sound-bars.gif")
+            play_embed.set_thumbnail(url="https://media.tenor.com/UzRhdbfPqk0AAAAi/boombox-music.gif")
             play_embed.set_image(url=player.thumbnail)
             play_embed.description = "*** " + player.title + " ***"
 
