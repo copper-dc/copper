@@ -19,17 +19,7 @@ class Api_commands(commands.Cog):
         jokeEmbed = discord.Embed(title=value,colour=discord.Colour.random())
         await interaction.response.send_message(embed=jokeEmbed)
      
-    
-        
-    async def is_nsfw(channel: discord.Interaction.channel):
-        if isinstance(channel,discord.TextChannel):
-            if channel.nsfw:
-                return True
-            else:
-                return False
-        else:
-            return "bruh"
+
         
 async def setup(bot: commands.Bot):
-    # print("Api_commands is loaded")
     await bot.add_cog(Api_commands(bot))
