@@ -18,6 +18,8 @@ class Api_commands(commands.Cog):
         value = data['value']
         jokeEmbed = discord.Embed(title=value,colour=discord.Colour.random())
         await interaction.response.send_message(embed=jokeEmbed)
+    
+    
      
 
         

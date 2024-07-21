@@ -2,6 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord import app_commands
+import requests
 import yt_dlp as youtube_dl
 from discord.ui import Button, View
 
@@ -117,6 +118,17 @@ class Music(commands.Cog):
             await interaction.followup.send(embed=play_embed, view=view)  
         except Exception as e:
             await interaction.followup.send(f"An error occurred: {e}")
+
+    @app_commands.command(name="lyrics",description="Get the lyrics of the song you want.")
+    async def getlyrics(self, interaction: discord.Interaction, artist: str, Song: str):
+        lyricsEmbed = discord.Embed(title="lyrics of "+Song,colour=discord.Colour.random())
+        URL = f"https://api.lyrics.ovh/v1/{artist}/{song}"
+        response = requests.get(url=URL)
+        data = response.json()
+        if 'lyrics' not in data:
+            return "Lyrics not found"
+        lyricsEmbed.description =  data['lyrics'] 
+        await interaction.response.send_message(embed=lyricsEmbed)
 
 
 
