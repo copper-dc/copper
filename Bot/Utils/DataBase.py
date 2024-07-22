@@ -1,7 +1,6 @@
 import asyncio
 from datetime import date
 import os
-from click import option
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 
