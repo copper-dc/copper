@@ -120,8 +120,8 @@ class Music(commands.Cog):
             await interaction.followup.send(f"An error occurred: {e}")
 
     @app_commands.command(name="lyrics",description="Get the lyrics of the song you want.")
-    async def getlyrics(self, interaction: discord.Interaction, artist: str, Song: str):
-        lyricsEmbed = discord.Embed(title="lyrics of "+Song,colour=discord.Colour.random())
+    async def getlyrics(self, interaction: discord.Interaction, artist: str, song: str):
+        lyricsEmbed = discord.Embed(title="lyrics of "+song,colour=discord.Colour.random())
         URL = f"https://api.lyrics.ovh/v1/{artist}/{song}"
         response = requests.get(url=URL)
         data = response.json()
