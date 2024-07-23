@@ -5,6 +5,8 @@ from discord import app_commands
 import requests
 import yt_dlp as youtube_dl
 from discord.ui import Button, View
+import json
+
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -37,7 +39,7 @@ class Music(commands.Cog):
             self.data = data
             self.title = data.get('title')
             self.url = data.get('url')
-            self.thumbnail = data.get('thumbnail', 'https://via.placeholder.com/150') 
+            # self.thumbnail = data.get('thumbnail', 'https://via.placeholder.com/150') 
 
         @classmethod
         async def from_url(cls, url, *, loop=None, stream=False):
@@ -88,13 +90,12 @@ class Music(commands.Cog):
                 player = await self.YTDLSource.from_url(song, loop=self.bot.loop, stream=True)
                 voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
 
-            play_embed = discord.Embed(title="Now Playing :notes:", color=discord.Colour.random())
-            play_embed.set_thumbnail(url="https://media.tenor.com/UzRhdbfPqk0AAAAi/boombox-music.gif")
-            play_embed.set_image(url=player.thumbnail)
-            play_embed.description = "*** " + player.title + " ***"
-
+            play_embed = discord.Embed(title="Copper Music Box :notes:", color=discord.Colour.random())
+            play_embed.set_image(url="https://images.unsplash.com/photo-1634893661513-d6d1f579fc63?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+            play_embed.description = "Playing `" + player.title + "`"
+            with open('JSON/player_data.json', 'w') as file:
+                json.dump(player.data, file, indent=4)
             pause_button = Button(label="❚❚", style=discord.ButtonStyle.green)
-
             async def pause_callback(interaction: discord.Interaction):
                 if voice_client.is_playing():
                     voice_client.pause()
@@ -114,7 +115,7 @@ class Music(commands.Cog):
             view = View()
             view.add_item(pause_button)
 
-
+            
             await interaction.followup.send(embed=play_embed, view=view)  
         except Exception as e:
             await interaction.followup.send(f"An error occurred: {e}")
