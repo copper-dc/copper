@@ -1,16 +1,18 @@
 import asyncio
+from code import interact
 import discord
 from discord.ext import commands
-from discord import app_commands
+from discord import Interaction, app_commands
 import requests
 import yt_dlp as youtube_dl
 from discord.ui import Button, View
 import json
-
+from collections import deque
 
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.queue = deque()  # Initialize an empty deque for the queue of songs
 
     ytdl_format_options = {
         'format': 'bestaudio/best',
@@ -39,7 +41,6 @@ class Music(commands.Cog):
             self.data = data
             self.title = data.get('title')
             self.url = data.get('url')
-            # self.thumbnail = data.get('thumbnail', 'https://via.placeholder.com/150') 
 
         @classmethod
         async def from_url(cls, url, *, loop=None, stream=False):
@@ -63,7 +64,6 @@ class Music(commands.Cog):
 
         await voice_client.disconnect()
         await interaction.response.send_message("Disconnected from the voice channel.", ephemeral=True)
-   
 
     @app_commands.command(name="play", description="Play a song from a YouTube URL")
     async def play(self, interaction: discord.Interaction, song: str):
@@ -82,56 +82,71 @@ class Music(commands.Cog):
             await channel.connect()
             voice_client = discord.utils.get(self.bot.voice_clients, guild=guild)
 
-        await interaction.response.defer()  
+        await interaction.response.defer()
 
         try:
             async with interaction.channel.typing():
-                song = song+" official audio"
+                song = song + " official audio"
                 player = await self.YTDLSource.from_url(song, loop=self.bot.loop, stream=True)
-                voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
+                player.volume = 0.5  # Adjust volume as needed
 
-            play_embed = discord.Embed(title="Copper Music Box :notes:", color=discord.Colour.random())
-            play_embed.set_image(url="https://images.unsplash.com/photo-1634893661513-d6d1f579fc63?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-            play_embed.description = "Playing `" + player.title + "`"
-            with open('JSON/player_data.json', 'w') as file:
-                json.dump(player.data, file, indent=4)
-            pause_button = Button(label="❚❚", style=discord.ButtonStyle.green)
-            async def pause_callback(interaction: discord.Interaction):
-                if voice_client.is_playing():
-                    voice_client.pause()
-                    pause_button.label = "▶"
-                    pause_button.style = discord.ButtonStyle.red
+                if voice_client.is_playing() or voice_client.is_paused():
+                    self.queue.append(player)
+                    await interaction.followup.send_message(f"`{player.title}` added to queue.")
 
-                elif voice_client.is_paused():
-                    voice_client.resume()
-                    pause_button.label = "❚❚"
-                    pause_button.style = discord.ButtonStyle.green
+                else:
+                    voice_client.play(player, after=lambda e: self.play_next(guild, voice_client))
 
-                await interaction.response.edit_message(view=view)
+                    play_embed = discord.Embed(title="Copper Music Box :notes:", color=discord.Colour.random())
+                    play_embed.set_image(url="https://images.unsplash.com/photo-1634893661513-d6d1f579fc63?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                    play_embed.description = "Playing `" + player.title + "`"
 
-            pause_button.callback = pause_callback
+                    with open('JSON/player_data.json', 'w') as file:
+                        json.dump(player.data, file, indent=4)
 
+                    followup_channel = self.bot.get_channel(interaction.channel_id)  
+                    await followup_channel.send(embed=play_embed)
 
-            view = View()
-            view.add_item(pause_button)
-
-            
-            await interaction.followup.send(embed=play_embed, view=view)  
         except Exception as e:
             await interaction.followup.send(f"An error occurred: {e}")
 
-    @app_commands.command(name="lyrics",description="Get the lyrics of the song you want.")
-    async def getlyrics(self, interaction: discord.Interaction, artist: str, song: str):
-        lyricsEmbed = discord.Embed(title="lyrics of "+song,colour=discord.Colour.random())
+    def play_next(self, guild, voice_client):
+        if len(self.queue) > 0:
+            next_player = self.queue.popleft()
+
+            async def play_next_song():
+                voice_client.play(next_player, after=lambda e: self.play_next(guild, voice_client))
+
+                play_embed = discord.Embed(title="Copper Music Box :notes:", color=discord.Colour.random())
+                play_embed.set_image(url="https://images.unsplash.com/photo-1634893661513-d6d1f579fc63?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+                play_embed.description = "Now playing `" + next_player.title + "`"
+                interaction = discord.Interaction
+                with open('JSON/player_data.json', 'w') as file:
+                    json.dump(next_player.data, file, indent=4)
+
+                followup_channel = self.bot.get_channel(interaction.channel_id) 
+                await followup_channel.send(embed=play_embed)
+
+            asyncio.run_coroutine_threadsafe(play_next_song(), self.bot.loop)
+        else:
+            asyncio.run_coroutine_threadsafe(voice_client.disconnect(), self.bot.loop)
+
+    @app_commands.command(name="lyrics", description="Get the lyrics of the song you want.")
+    async def get_lyrics(self, interaction: discord.Interaction, artist: str, song: str):
+        lyrics_embed = discord.Embed(title="Lyrics of " + song, colour=discord.Colour.random())
         URL = f"https://api.lyrics.ovh/v1/{artist}/{song}"
         response = requests.get(url=URL)
         data = response.json()
         if 'lyrics' not in data:
-            return "Lyrics not found"
-        lyricsEmbed.description =  data['lyrics'] 
-        await interaction.response.send_message(embed=lyricsEmbed)
+            await interaction.response.send_message("Lyrics not found.")
+            return
+        lyrics_embed.description = data['lyrics']
+        await interaction.response.send_message(embed=lyrics_embed)
 
-
+    async def send_play_message(self, embed):
+        interaction = discord.Interaction
+        followup_channel = self.bot.get_channel(interaction.channel_id)  
+        await followup_channel.send(embed=embed)
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Music(bot))
