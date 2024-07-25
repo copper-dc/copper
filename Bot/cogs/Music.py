@@ -12,7 +12,7 @@ from collections import deque
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.queue = deque()  # Initialize an empty deque for the queue of songs
+        self.queue = deque() 
 
     ytdl_format_options = {
         'format': 'bestaudio/best',
@@ -88,11 +88,13 @@ class Music(commands.Cog):
             async with interaction.channel.typing():
                 song = song + " official audio"
                 player = await self.YTDLSource.from_url(song, loop=self.bot.loop, stream=True)
-                player.volume = 0.5  # Adjust volume as needed
+                player.volume = 0.5  
 
                 if voice_client.is_playing() or voice_client.is_paused():
                     self.queue.append(player)
-                    await interaction.followup.send_message(f"`{player.title}` added to queue.")
+                    queue_playerEmbed = discord.Embed(title = "Upcoming Songs")
+                    queue_playerEmbed.description = "`"+player.title+"` is added to queue."
+                    await interaction.followup.send(embed=queue_playerEmbed)
 
                 else:
                     voice_client.play(player, after=lambda e: self.play_next(guild, voice_client))
@@ -120,16 +122,27 @@ class Music(commands.Cog):
                 play_embed = discord.Embed(title="Copper Music Box :notes:", color=discord.Colour.random())
                 play_embed.set_image(url="https://images.unsplash.com/photo-1634893661513-d6d1f579fc63?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
                 play_embed.description = "Now playing `" + next_player.title + "`"
-                interaction = discord.Interaction
+
                 with open('JSON/player_data.json', 'w') as file:
                     json.dump(next_player.data, file, indent=4)
 
-                followup_channel = self.bot.get_channel(interaction.channel_id) 
-                await followup_channel.send(embed=play_embed)
+                interaction = discord.Interaction
+                followup_channel = self.bot.get_channel(interaction.channel_id)
+                message = await followup_channel.send(embed=play_embed)
+
+                while voice_client.is_playing() or voice_client.is_paused():
+                    if voice_client.is_playing():
+                        play_embed.description = "Now playing `" + next_player.title + "`"
+                    elif voice_client.is_paused():
+                        play_embed.description = "Paused `" + next_player.title + "`"
+
+                    await message.edit(embed=play_embed)
+                    await asyncio.sleep(5)  
 
             asyncio.run_coroutine_threadsafe(play_next_song(), self.bot.loop)
         else:
             asyncio.run_coroutine_threadsafe(voice_client.disconnect(), self.bot.loop)
+
 
     @app_commands.command(name="lyrics", description="Get the lyrics of the song you want.")
     async def get_lyrics(self, interaction: discord.Interaction, artist: str, song: str):
