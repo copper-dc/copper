@@ -1,9 +1,7 @@
-import aiohttp
 import discord
-from discord.ext import commands
-from discord import app_commands
 import requests
-
+from discord import app_commands
+from discord.ext import commands
 
 RANDOMJOKESBASEURL = "https://api.chucknorris.io/jokes/random"
 class Api_commands(commands.Cog):

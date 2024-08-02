@@ -1,13 +1,12 @@
 import asyncio
-from code import interact
-import discord
-from discord.ext import commands
-from discord import Interaction, app_commands
-import requests
-import yt_dlp as youtube_dl
-from discord.ui import Button, View
 import json
 from collections import deque
+import discord
+import requests
+import yt_dlp as youtube_dl
+from discord import app_commands
+from discord.ext import commands
+
 
 class Music(commands.Cog):
     def __init__(self, bot):
@@ -144,17 +143,20 @@ class Music(commands.Cog):
             asyncio.run_coroutine_threadsafe(voice_client.disconnect(), self.bot.loop)
 
 
-    @app_commands.command(name="lyrics", description="Get the lyrics of the song you want.")
-    async def get_lyrics(self, interaction: discord.Interaction, artist: str, song: str):
-        lyrics_embed = discord.Embed(title="Lyrics of " + song, colour=discord.Colour.random())
-        URL = f"https://api.lyrics.ovh/v1/{artist}/{song}"
-        response = requests.get(url=URL)
-        data = response.json()
-        if 'lyrics' not in data:
-            await interaction.response.send_message("Lyrics not found.")
-            return
-        lyrics_embed.description = data['lyrics']
-        await interaction.response.send_message(embed=lyrics_embed)
+    # @app_commands.command(name="lyrics", description="Get the lyrics of the song you want.")
+    # async def get_lyrics(self, interaction: discord.Interaction):
+    #     with open("JSON\player_data.json", 'r') as f:
+    #         data = json.load(f)
+    #         artist_name = data['artist']
+    #     lyrics_embed = discord.Embed(title="Lyrics of " + song, colour=discord.Colour.random())
+    #     URL = f"https://api.lyrics.ovh/v1/{artist_name}/{song}"
+    #     response = requests.get(url=URL)
+    #     data = response.json()
+    #     if 'lyrics' not in data:
+    #         await interaction.response.send_message("Lyrics not found.")
+    #         return
+    #     lyrics_embed.description = data['lyrics']
+    #     await interaction.response.send_message(embed=lyrics_embed)
 
     async def send_play_message(self, embed):
         interaction = discord.Interaction
