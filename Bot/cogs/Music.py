@@ -149,7 +149,7 @@ class Music(commands.Cog):
             if queue:
                 queue_embed = discord.Embed(title="Song Queue", color=discord.Colour.green())
                 for idx, song in enumerate(queue, 1):
-                    queue_embed.add_field(name=f"Song {idx}", value=song['title'], inline=False)
+                    queue_embed.add_field(name=f"{idx} - ", value="`"+song['title']+"`", inline=False)
                 await interaction.response.send_message(embed=queue_embed)
             else:
                 await interaction.response.send_message("The queue is currently empty.")
@@ -228,7 +228,7 @@ class Music(commands.Cog):
         except Exception as e:
             await interaction.followup.send(f"An error occurred: {e}")
 
-    @app_commands.command(name="now-playing", description="Show the currently playing song")
+    @app_commands.command(name="player-panel", description="Show the currently playing song")
     async def nowplaying(self, interaction: discord.Interaction):
         guild = interaction.guild
         song_info = self.currently_playing.get(guild.id, None)
@@ -236,6 +236,7 @@ class Music(commands.Cog):
         if song_info:
             now_playing_embed = discord.Embed(title="Currently Playing", color=discord.Colour.blue())
             now_playing_embed.description = f"**Title:** {song_info['title']}\n**Requested by:** {song_info['requester'].mention}"
+            now_playing_embed.set_image(url="https://cdn.dribbble.com/users/1770290/screenshots/6164788/bg_76.gif")
             buttons = self.create_buttons(guild.id)
             await interaction.response.send_message(embed=now_playing_embed, view=buttons)
         else:
@@ -249,7 +250,7 @@ class Music(commands.Cog):
         if queue:
             queue_embed = discord.Embed(title="Song Queue", color=discord.Colour.green())
             for idx, song in enumerate(queue, 1):
-                queue_embed.add_field(name=f"Song {idx}", value="`"+song['title']+"`", inline=False)
+                queue_embed.add_field(name=f"{idx} - ", value="`"+song['title']+"`", inline=False)
             await interaction.response.send_message(embed=queue_embed)
         else:
             await interaction.response.send_message("The queue is currently empty.")
