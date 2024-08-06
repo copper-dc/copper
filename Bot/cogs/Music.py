@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -86,11 +87,20 @@ class Music(commands.Cog):
             await voice_client.channel.send("Queue has ended. Session closed.")
 
     def create_buttons(self, guild_id):
-        pause_button = Button(label="||", style=discord.ButtonStyle.green)
-        skip_button = Button(label=">|", style=discord.ButtonStyle.blurple)
-        stop_button = Button(label="⏹", style=discord.ButtonStyle.red)
+
+        pause_button_icon = "▐▐ "  # Pause emoji
+        play_button_icon = "▶"   # Play emoji
+        forward_button_icon = "▶▶"  # Forward emoji
+        backward_button_icon = "◀◀" # Backward emoji
+        stop_button_icon = "◼"   # Stop emoji
+        info_button_icon = "🛈"  # Info emoji
+        queue_button_icon = "☰" # Queue emoji
+
+        pause_button = Button(label=pause_button_icon, style=discord.ButtonStyle.green)
+        skip_button = Button(label=forward_button_icon, style=discord.ButtonStyle.blurple)
+        stop_button = Button(label=stop_button_icon, style=discord.ButtonStyle.red)
         info_button = Button(label="ℹ️", style=discord.ButtonStyle.gray)
-        prev_button = Button(label="|<", style=discord.ButtonStyle.blurple)
+        prev_button = Button(label=backward_button_icon, style=discord.ButtonStyle.blurple)
         queue_button = Button(label="📃", style=discord.ButtonStyle.gray)
         lyrics_button = Button(label="📝", style=discord.ButtonStyle.gray)
 
@@ -98,11 +108,11 @@ class Music(commands.Cog):
             voice_client = discord.utils.get(self.bot.voice_clients, guild=interaction.guild)
             if voice_client.is_playing():
                 voice_client.pause()
-                pause_button.label = ">"
+                pause_button.label = pause_button_icon
                 pause_button.style = discord.ButtonStyle.red
             elif voice_client.is_paused():
                 voice_client.resume()
-                pause_button.label = "||"
+                pause_button.label = play_button_icon
                 pause_button.style = discord.ButtonStyle.green
             await interaction.response.edit_message(view=self.create_buttons(guild_id))
 
@@ -128,7 +138,7 @@ class Music(commands.Cog):
             if song_info:
                 info_embed = discord.Embed(title="Currently Playing", color=discord.Colour.blue())
                 info_embed.set_thumbnail(url=song_info["thumbnail"])
-                info_embed.description = f"**Title:`** {song_info['title']}`\n**Requested by:** {song_info['requester'].mention}"
+                info_embed.description = f"**Title:** {song_info['title']}\n**Requested by:** {song_info['requester'].mention}"
                 await interaction.response.send_message(embed=info_embed, ephemeral=True)
             else:
                 await interaction.response.send_message("No song is currently playing.", ephemeral=True)
@@ -230,17 +240,29 @@ class Music(commands.Cog):
 
     @app_commands.command(name="player-panel", description="Show the currently playing song")
     async def nowplaying(self, interaction: discord.Interaction):
-        guild = interaction.guild
-        song_info = self.currently_playing.get(guild.id, None)
+        try:
+            logging.info(f"Received 'player-panel' command from {interaction.user} in guild {interaction.guild.name}")
 
-        if song_info:
-            now_playing_embed = discord.Embed(title="Currently Playing", color=discord.Colour.blue())
-            now_playing_embed.description = f"**Title:** {song_info['title']}\n**Requested by:** {song_info['requester'].mention}"
-            now_playing_embed.set_image(url="https://cdn.dribbble.com/users/1770290/screenshots/6164788/bg_76.gif")
-            buttons = self.create_buttons(guild.id)
-            await interaction.response.send_message(embed=now_playing_embed, view=buttons)
-        else:
-            await interaction.response.send_message("No song is currently playing.")
+            guild = interaction.guild
+            song_info = self.currently_playing.get(guild.id, None)
+
+            if song_info:
+                logging.info(f"Currently playing song found: {song_info['title']}")
+
+                now_playing_embed = discord.Embed(title="Currently Playing", color=discord.Colour.blue())
+                now_playing_embed.description = f"**Title:** {song_info['title']}\n**Requested by:** {song_info['requester'].mention}"
+                now_playing_embed.set_image(url="https://cdn.dribbble.com/users/1770290/screenshots/6164788/bg_76.gif")
+                buttons = self.create_buttons(guild.id)
+
+                await interaction.response.send_message(embed=now_playing_embed, view=buttons)
+                logging.info("Successfully sent 'Currently Playing' message")
+            else:
+                logging.warning("No song is currently playing.")
+                await interaction.response.send_message("No song is currently playing.")
+        except Exception as e:
+            logging.error(f"An error occurred in 'player-panel' command: {e}")
+            await interaction.response.send_message(f"An error occurred: {e}", ephemeral=True)
+
 
     @app_commands.command(name="queue", description="Show the current song queue")
     async def queue(self, interaction: discord.Interaction):
