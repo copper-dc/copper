@@ -272,7 +272,8 @@ class Music(commands.Cog):
         if queue:
             queue_embed = discord.Embed(title="Song Queue", color=discord.Colour.green())
             for idx, song in enumerate(queue, 1):
-                queue_embed.add_field(name=f"{idx} - ", value="`"+song['title']+"`", inline=False)
+                title = song['title'][:12] + '...' if len(song['title']) > 12 else song['title']
+                queue_embed.add_field(name=f" `{idx}` - `{title}`", value=f"Requested by {song['requester'].mention}", inline=False)
             await interaction.response.send_message(embed=queue_embed)
         else:
             await interaction.response.send_message("The queue is currently empty.")
