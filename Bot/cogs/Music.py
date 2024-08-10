@@ -99,10 +99,10 @@ class Music(commands.Cog):
         pause_button = Button(label=pause_button_icon, style=discord.ButtonStyle.green)
         skip_button = Button(label=forward_button_icon, style=discord.ButtonStyle.blurple)
         stop_button = Button(label=stop_button_icon, style=discord.ButtonStyle.red)
-        info_button = Button(label="ℹ️", style=discord.ButtonStyle.gray)
+        info_button = Button(label=info_button_icon, style=discord.ButtonStyle.gray)
         prev_button = Button(label=backward_button_icon, style=discord.ButtonStyle.blurple)
-        queue_button = Button(label="📃", style=discord.ButtonStyle.gray)
-        lyrics_button = Button(label="📝", style=discord.ButtonStyle.gray)
+        queue_button = Button(label=queue_button_icon, style=discord.ButtonStyle.green)
+        lyrics_button = Button(label="Lyrics", style=discord.ButtonStyle.green)
 
         async def pause_callback(interaction: discord.Interaction):
             voice_client = discord.utils.get(self.bot.voice_clients, guild=interaction.guild)
@@ -165,7 +165,9 @@ class Music(commands.Cog):
                 await interaction.response.send_message("The queue is currently empty.")
 
         async def lyrics_callback(interaction: discord.Interaction):
-            await interaction.response.send_message("Lyrics feature not implemented yet.", ephemeral=True)
+            lyrics_premium = discord.Embed(title="Lyrics", color=discord.Colour.gold())
+            lyrics_premium.description = "Lyrics are a premium feature. Upgrade to premium to access this feature."
+            await interaction.response.send_message(embed=lyrics_premium, ephemeral=True)
 
         pause_button.callback = pause_callback
         skip_button.callback = skip_callback
