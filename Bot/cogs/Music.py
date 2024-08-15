@@ -4,6 +4,7 @@ import logging
 import discord
 from discord.ext import commands
 from discord import app_commands
+import requests
 import yt_dlp as youtube_dl
 from discord.ui import Button, View
 
@@ -14,6 +15,9 @@ class Music(commands.Cog):
         self.queues = {}
         self.history = {}
         self.previous_song = {}
+        self.artist_search = ""
+        self.song_search = ""
+
 
     ytdl_format_options = {
         'format': 'bestaudio/best',
@@ -168,13 +172,34 @@ class Music(commands.Cog):
         async def lyrics_callback(interaction: discord.Interaction):
             try:
                 with open("JSON/playerdata.json", 'r') as file:
-                    data = json.load(file)
-                lyrics_premium = discord.Embed(title="Lyrics of "+data.title, color=discord.Colour.gold())
-                lyrics_premium.description = 
-                await interaction.response.send_message(embed=lyrics_premium, ephemeral=True)
+                    player_data = json.load(file)
+
+                artist = player_data.get('uploader', 'Unknown Artist')
+
+                if self.artist_search == "":
+                    artist = self.artist_search
+                
+                song = self.song_search
+                
+                lyricsEmbed = discord.Embed(title=f"Lyrics of {song} :notes:", colour=discord.Colour.random())
+
+                URL = f"https://api.lyrics.ovh/v1/{artist}/{song}"
+                response = requests.get(url=URL)
+                data = response.json()
+
+                if 'lyrics' not in data:
+                    await interaction.response.send_message("Lyrics not found")
+                    return
+                
+                lyricsEmbed.description = data['lyrics']
+                await interaction.response.send_message(embed=lyricsEmbed)
+            
             except FileNotFoundError:
-                print(f"Error: Could not find file {file_path}")
-                return None
+                print(f"Error: Could not find file 'playerdata.json'")
+            except json.JSONDecodeError:
+                print("Error: Could not decode JSON from the file")
+            except Exception as e:
+                print(f"An unexpected error occurred: {e}")
             
 
         pause_button.callback = pause_callback
@@ -196,7 +221,7 @@ class Music(commands.Cog):
         return view
 
     @app_commands.command(name="play", description="Play a song from a YouTube URL")
-    async def play(self, interaction: discord.Interaction, song: str):
+    async def play(self, interaction: discord.Interaction, song: str, artist: str=None):
         guild = interaction.guild
         voice_state = interaction.user.voice
 
@@ -215,7 +240,13 @@ class Music(commands.Cog):
             await interaction.response.defer()
 
             async with interaction.channel.typing():
-                song_query = song + " official audio"
+                if artist:
+                    self.artist_search = artist
+                    self.song_search = song
+                    song_query = song + " by "+ artist+" official audio"
+                else:
+                    self.song_search = song
+                    song_query = song + " official audio"
                 # Extract song info
                 player = await self.YTDLSource.from_url(song_query, loop=self.bot.loop, stream=True)
 

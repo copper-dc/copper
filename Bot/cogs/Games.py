@@ -200,10 +200,6 @@ class Games(commands.Cog):
         if user is not None:
             user_id = user.id
             points = await find(user_id,1)
-        else:
-            user_id = interactions.user.id
-            user = interactions.user
-            points = await find(user_id,1)
 
         if type(points) == str:
             BalanceEmbed.description = f"{user.mention} hasnt participated in any games yet."
