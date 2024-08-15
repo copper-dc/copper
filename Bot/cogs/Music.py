@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 import discord
 from discord.ext import commands
@@ -165,9 +166,16 @@ class Music(commands.Cog):
                 await interaction.response.send_message("The queue is currently empty.")
 
         async def lyrics_callback(interaction: discord.Interaction):
-            lyrics_premium = discord.Embed(title="Lyrics", color=discord.Colour.gold())
-            lyrics_premium.description = "Lyrics are a premium feature. Upgrade to premium to access this feature."
-            await interaction.response.send_message(embed=lyrics_premium, ephemeral=True)
+            try:
+                with open("JSON/playerdata.json", 'r') as file:
+                    data = json.load(file)
+                lyrics_premium = discord.Embed(title="Lyrics of "+data.title, color=discord.Colour.gold())
+                lyrics_premium.description = 
+                await interaction.response.send_message(embed=lyrics_premium, ephemeral=True)
+            except FileNotFoundError:
+                print(f"Error: Could not find file {file_path}")
+                return None
+            
 
         pause_button.callback = pause_callback
         skip_button.callback = skip_callback
@@ -178,11 +186,11 @@ class Music(commands.Cog):
         lyrics_button.callback = lyrics_callback
 
         view = View()
+        view.add_item(info_button)
         view.add_item(prev_button)
         view.add_item(pause_button)
         view.add_item(skip_button)
         view.add_item(stop_button)
-        view.add_item(info_button)
         view.add_item(queue_button)
         view.add_item(lyrics_button)
         return view
@@ -219,6 +227,8 @@ class Music(commands.Cog):
                     'requester': interaction.user
                 }
                 self.currently_playing[guild.id] = song_info
+                with open('JSON/playerdata.json', 'w') as file:
+                    json.dump(player.data, file, indent=4)
 
                 # Add the song to the queue
                 if voice_client.is_playing():

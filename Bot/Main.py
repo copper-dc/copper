@@ -11,7 +11,6 @@ load_dotenv()
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
 
 
-# BARDTOKEN: Final[str] = os.getenv('GEMINI_TOKEN')
 
 
 global strings
