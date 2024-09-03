@@ -1,5 +1,3 @@
 .env
 .idea/
 Bot/__pycache__
-
-JSON/player_data.json
