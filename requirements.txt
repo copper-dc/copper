@@ -7,4 +7,3 @@ yt-dlp
 pynacl
 pyfiglet
 termcolor
-google-generativeai

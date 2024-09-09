@@ -173,16 +173,20 @@ class Games(commands.Cog):
 
     @app_commands.command(name='balance',description='Shows the points you earned from the games you won against the bot')
     async def view_points_cmd(self, interactions:discord.Interaction,user:discord.Member =None):
-        BalanceEmbed = discord.Embed(title="Your wallet balance",colour=discord.Colour.random())
+        BalanceEmbed = discord.Embed(title="Wallet balance",colour=discord.Colour.random())
         BalanceEmbed.set_thumbnail(url="https://media.tenor.com/QMfaVm3kNy0AAAAi/moneda-girando-spinning.gif")
         if user is not None:
             user_id = user.id
+            points = await find(user_id,1)
+        else:
+            user_id = interactions.user.id
+            user = interactions.user
             points = await find(user_id,1)
 
         if type(points) == str:
             BalanceEmbed.description = f"{user.mention} hasnt participated in any games yet."
         else:
-            BalanceEmbed.description = f"{user.mention}'s points ${points}" 
+            BalanceEmbed.description = f"{user.mention}'s points {points}" 
         await interactions.response.send_message(embed=BalanceEmbed)
     
     @app_commands.command(name="transfer",description="Transfer money to your friends, waifu, business partner too...")
