@@ -13,7 +13,7 @@ TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
 
 
 
-global strings
+#global strings
 strings = ["hello","hi","yahallo","yo","yooo","good morning","good night","good afternoon","good evening","bye","goodbye","cya"]
 
 # Define the intents your bot will use
@@ -45,7 +45,7 @@ async def on_ready():
 async def on_message(message):
     # Check if the message starts with strings[]
     for string in strings:
-        if ((message.content.startswith("?"))): # response in private
+        if message.content.startswith("?"): # response in private
                 if message.author != bot.user:
                  await message.author.send(f"{message.content[1:]} {message.author.mention}!")
                  break
@@ -59,9 +59,10 @@ async def on_message(message):
 async def load():
     f = Figlet(font='larry3d')
     print(colored(f.renderText('C O P P E R'),color="red"))
-    for filename in os.listdir("Bot/cogs"):
+    COGS_DIR = os.path.join(os.path.dirname(__file__), 'cogs')
+    for filename in os.listdir(COGS_DIR):
         if filename.endswith('.py'):
-            print(f"loading {filename}")
+            print(f"Loading {filename}")
             await bot.load_extension(f"cogs.{filename[:-3]}")
 
 
