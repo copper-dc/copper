@@ -8,3 +8,4 @@ pynacl
 pyfiglet
 termcolor
 ollama
+PyPDF2
