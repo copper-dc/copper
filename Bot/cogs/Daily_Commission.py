@@ -64,3 +64,6 @@ async def reset_streak(user_id):
 
 async def update_streak(user_id, increment=False, reset=False):
     pass
+
+async def setup(bot: commands.Bot):
+    await bot.add_cog(Daily_Commission(bot))
