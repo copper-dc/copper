@@ -15,7 +15,7 @@ class copperllama(commands.Cog):
     @app_commands.command(name="ask_copper", description="ask llama model")
     async def askllama(self, interaction: discord.Interaction, prompt: str):
         await interaction.response.defer()
-        llamaEmbed = discord.Embed(title="Copper's Response 🐐", colour=discord.Colour.random())
+        llamaEmbed = discord.Embed(title="Llama's Response 🐐", colour=discord.Colour.random())
         response = ollama.chat(model='copper:1b', messages=[
             {
                 'role': 'user',
@@ -26,7 +26,7 @@ class copperllama(commands.Cog):
 
         await interaction.followup.send(embed=llamaEmbed)
 
-    @app_commands.command(name="summarize_file", description="Summarize docs and pdf using copper")
+    @app_commands.command(name="summarize_file", description="Summarize docs and pdf using llama3.2:1b")
     async def summarizefile(self, interaction: discord.Interaction, file: discord.Attachment):
         await interaction.response.defer()
         if not file.filename.endswith('.pdf'):
@@ -40,9 +40,6 @@ class copperllama(commands.Cog):
             page = pdf_reader.pages[page_num]
             pdf_text += page.extract_text()
 
-        # Only accept the content to 2000 characters if it's too large for Discord.
-        # if len(pdf_text) > 2000:
-        #     pdf_text = pdf_text[:2000]
 
         prompt = f"Summarize the following content:\n{pdf_text}"
         response = ollama.chat(model='copper:1b', messages=[
