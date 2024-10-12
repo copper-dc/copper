@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-from Bot.Utils.DataBase import findlastactive, update_db
+from Utils.DataBase import findlastactive, update_db
 
 
 class Daily_Commission(commands.Cog):
