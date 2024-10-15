@@ -3,9 +3,10 @@ import json
 import random
 import discord
 import requests
-from Utils.DataBase import create_db, update_db, find
 from discord import app_commands
 from discord.ext import commands
+
+from Utils.DataBase import update_db, find, create_db
 
 RPS = ['rock','paper','scissors']
 SLOT_MACHINE =[":8ball:",":moneybag:",":coin:",":gem:",":cherries:",":money_with_wings:"]
