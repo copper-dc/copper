@@ -1,10 +1,7 @@
 import discord
-import ollama
 import requests
 from discord import app_commands
 from discord.ext import commands
-import asyncio
-from ollama import AsyncClient, embed
 
 RANDOMJOKESBASEURL = "https://api.chucknorris.io/jokes/random"
 class Api_commands(commands.Cog):

@@ -8,3 +8,5 @@ pyfiglet
 termcolor
 ollama
 PyPDF2
+spotipy
+requests

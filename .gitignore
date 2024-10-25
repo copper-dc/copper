@@ -1,3 +1,4 @@
 .env
 .idea/
 Bot/__pycache__
+.cache
