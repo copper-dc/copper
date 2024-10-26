@@ -1,47 +1,91 @@
 
 <p align="center">
   <a href="https://github.com/copper-discord-bot/copper">
-  <img src="assets/copper.png" alt="copper logo" height="400"/>
+  <img src="assets/copper.jpg" alt="copper logo" height="400"/>
      </a>
 
    <h3 align="center">Copper</h3>
    </p>
 
-# Copper Discord Bot
+# Copper - Elysium Galaxy Discord Bot
 
-Copper is a customizable Discord bot developed to enhance your Discord server with various useful features and functionalities.
-> [!IMPORTANT]
-> We decided to change our code base and make that fully structured, organized and efficient.
+Welcome to **Copper**, your friendly guide to the enchanting world of Norax! This Discord bot enhances your adventures with interactive features that bring the magical regions and elemental powers of Norax to life.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Commands](#commands)
+- [Regions of Norax](#regions-of-norax)
+- [Elemental Powers](#elemental-powers)
+- [Getting Started](#getting-started)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+**Copper** serves as your companion in Elysium Galaxy, helping you embark on quests, uncover hidden treasures, and connect with fellow adventurers. Explore the vibrant landscapes of Norax, filled with mystery and adventure!
 
 ## Features
 
-- **Custom Commands**: Create custom commands to perform specific actions or provide information.
-- **Moderation Tools**: Manage your server more effectively with moderation tools like kick, ban, and mute.
-- **Music Playback**: Play music from YouTube or other sources in voice channels.
-- **Lyrics**: Now you can get lyrics by using the **Artist name** and **Track name**.
-- **Fun Commands**: Engage your community with fun commands like memes, jokes, and trivia.
-- **Utility Commands**: Access utility commands for information retrieval, weather forecasts, and more.
+- **Interactive Adventures**: Engage in quests and events that immerse you in Norax's lore.
+- **Region Exploration**: Discover details about the unique regions of the planet.
+- **Elemental Powers**: Learn how elemental powers can enhance your gameplay.
+- **Community Engagement**: Connect with other players, share stories, and collaborate on adventures.
+
+## Commands
+
+Here are some of the commands you can use with Copper:
+
+- `!explore` - Start your journey in one of Norax's regions.
+- `!region <region_name>` - Get information about a specific region.
+- `!power <element>` - Discover the details of each elemental power.
+- `!quest` - Receive a random quest to embark on.
+- `!treasure` - Find out about hidden treasures in each region.
+
+## Regions of Norax
+
+### 1. Tiaga Luminia
+- **Description**: A vibrant forest filled with bioluminescent plants and glowing creatures.
+- **Elemental Power**: Light
+
+### 2. Eternal Sands
+- **Description**: Endless shifting dunes with ancient ruins and nomadic tribes.
+- **Elemental Power**: Earth
+
+### 3. Dopplergorge
+- **Description**: A mysterious region of winding caves filled with echoes and glowing plants.
+- **Elemental Power**: Sound
+
+### 4. Starli Cove
+- **Description**: A serene coastal area where waters shimmer under a blanket of stars.
+- **Elemental Power**: Water
+
+## Elemental Powers
+
+Harness the powers of the elements as you explore Norax:
+
+- **Light** (Tiaga Luminia): Illuminate your path and reveal hidden secrets.
+- **Earth** (Eternal Sands): Utilize the strength of the land and its ancient mysteries.
+- **Sound** (Dopplergorge): Communicate with echoes and discover hidden paths.
+- **Water** (Starli Cove): Navigate the depths and uncover treasures beneath the waves.
 
 ## Getting Started
 
-To add Copper to your Discord server, click [here](#) and follow the instructions.
+To add Copper to your Discord server, follow these steps:
+
+1. Invite Copper using the provided link.
+2. Assign the necessary permissions for interaction.
+3. Type `!help` in your server to see a list of commands and start your adventure!
 
 ## Contributing
 
-We welcome contributions from the community! If you'd like to contribute to Copper, please read the [contribution guidelines](CONTRIBUTING.md) before getting started.
+We welcome contributions! If you have ideas for new features, improvements, or bug fixes, feel free to open an issue or submit a pull request.
 
 ## License
 
-Copper is licensed under the [GNU General Public License v3.0](LICENSE). Please take a look at the [LICENSE](LICENSE) file for more details.
-
-## Support
-
-If you need assistance or have any questions about Copper, join our [Discord server](https://discord.gg/YgEWR9mKU9) and ask in the support channel.
-
-## Acknowledgements
-
-Copper is built with love by the community. We want to thank all of our contributors for their hard work and dedication.
+This project is licensed under the GNU GENERAL PUBLIC License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-**Note**: Copper is an open-source project and is not affiliated with or endorsed by Discord Inc.
+Embark on your adventure with Copper in the Elysium Galaxy and explore the wonders of Norax! For any questions or support, join our community and let the journey begin!

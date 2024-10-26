@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bot.Events.Greeting;
+import org.bot.Events.UserCreate;
 
 public class CopperRunner {
     JDA CopperBot;
@@ -14,7 +15,7 @@ public class CopperRunner {
         Copperbuilder.setActivity(Activity.playing("In this planet..."));
 
         Copperbuilder.addEventListeners(new Greeting());
-
+        Copperbuilder.addEventListeners(new UserCreate());
 
         CopperBot = Copperbuilder.build();
 
