@@ -1,16 +1,13 @@
 
-<p align="center">
-  <a href="https://github.com/copper-discord-bot/copper">
-  <img src="assets/copper.jpg" alt="copper logo" height="400"/>
-     </a>
+# NoraxBot
+Welcome to NoraxBot, your ultimate companion for exploring the enchanting planet of Norax in the Elysium Galaxy! This Discord bot enhances your RPG experience with dynamic features, quests, and community engagement.
 
-   <h3 align="center">Copper</h3>
-   </p>
-
-# Copper - Elysium Galaxy Discord Bot
-
-Welcome to **Copper**, your friendly guide to the enchanting world of Norax! This Discord bot enhances your adventures with interactive features that bring the magical regions and elemental powers of Norax to life.
-
+## Features
+- **Explore Regions**: Discover unique areas like Tiaga Luminia, Eternal Sands, Dopplergorge, and Starli Cove.
+- **Elemental Powers**: Harness the powers of Light, Earth, Sound, and Water to enhance your adventures.
+- **Quests and Challenges**: Engage in exciting quests that reveal the lore and mysteries of Norax. 
+- **Character Customization**: Create and customize your character to fit your unique playstyle.
+- **Community Events**: Join fellow adventurers for events, challenges, and collaborative storytelling.
 ## Table of Contents
 
 - [Overview](#overview)

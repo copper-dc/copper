@@ -4,9 +4,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.Elysium.Events.Greeting;
 import org.Elysium.Events.Ping;
-import org.Elysium.Events.UserCreate;
 
 import static net.dv8tion.jda.api.JDABuilder.*;
 
