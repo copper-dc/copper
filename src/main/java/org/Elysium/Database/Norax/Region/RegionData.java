@@ -1,7 +1,9 @@
 package org.Elysium.Database.Norax.Region;
 
-public class RegionData {
-
-
-
+public interface RegionData {
+    String getRegionId();
+    String getName();
+    String getElementalPower();
+    String getDescription();
 }
+

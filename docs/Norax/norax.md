@@ -17,6 +17,6 @@ meaning: The name "Norax" can evoke a sense of mystery and adventure, but since 
 - **Starli Cove**: It is a serene coastal area where the waters shimmer under a blanket of stars, featuring vibrant coral reefs, unique marine life, and hidden treasures waiting to be discovered along its shores.
 ## Elemental Powers
 -   **Tiaga Luminia**: **Light**
--   **Eternal Sands**: **Earth**
+-   **Eternal Sands**: **Land**
 -   **Dopplergorge**: **Sound**
 -   **Starlit Cove**: **Water**
