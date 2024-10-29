@@ -9,6 +9,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -24,21 +25,57 @@ public class MongoDBConnector {
         this.mongoDatabase = mongoClient.getDatabase(databaseName);
     }
 
-    public void insertUser(User user, String collectionName) {
-        MongoCollection<Document> userCollection = mongoDatabase.getCollection(collectionName);
-        Document userDocument = user.toDocument();
-        userCollection.insertOne(userDocument);
+    public String insertUser(User user, String collectionName) {
+        String message = null;
+        String userId = user.getUserId();
+
+        String UserRegion = findUserInAnyRegion(userId);
+        if(UserRegion==null) {
+            MongoCollection<Document> userCollection = mongoDatabase.getCollection(collectionName);
+            Document userDocument = user.toDocument();
+            userCollection.insertOne(userDocument);
+
+            return message;
+        }
+
+        return " was already created in `"+UserRegion+"`";
+
     }
 
 
 
     // Find user by user ID from the appropriate region collection
-    public User findUserById(String userId, String currentRegion) {
-        String regionCollectionName = currentRegion.toLowerCase().replace(" ", ""); // Format for collection name
-        MongoCollection<Document> userCollection = mongoDatabase.getCollection(regionCollectionName);
-        Document userDocument = userCollection.find(new Document("user_id", userId)).first();
-        return userDocument != null ? User.fromDocument(userDocument) : null;
+    public User findUserById(String userId) {
+        List<String> regions = Arrays.asList("Starli Cove", "Tiaga Luminia", "Eternal Sands", "DopplerGorge");
+
+        for (String region : regions) {
+            String regionCollectionName = region.toLowerCase().replace(" ", "");
+            MongoCollection<Document> userCollection = mongoDatabase.getCollection(regionCollectionName);
+            Document userDocument = userCollection.find(new Document("user_id", userId)).first();
+            if(userDocument!=null) {
+            return User.fromDocument(userDocument);
+            }
+        }
+        return null;
     }
+
+    public String findUserInAnyRegion(String userId) {
+
+        List<String> regions = Arrays.asList("Starli Cove", "Tiaga Luminia", "Eternal Sands", "DopplerGorge");
+
+        for (String region : regions) {
+            String regionCollectionName = region.toLowerCase().replace(" ", "");
+            MongoCollection<Document> userCollection = mongoDatabase.getCollection(regionCollectionName);
+            Document userDocument = userCollection.find(new Document("user_id", userId)).first();
+
+            if (userDocument != null) {
+                return region;
+            }
+        }
+
+        return null; // User not found in any region
+    }
+
 
     // Update user fields in the appropriate region collection
     public void updateUser(String userId, String currentRegion, String newUsername, String newRegion, String newElementalAffinity, Integer newExperiencePoints, Integer newCoins) {

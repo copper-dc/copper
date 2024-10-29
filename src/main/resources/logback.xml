@@ -1,11 +1,8 @@
 <configuration>
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <root level="info">
-        <appender-ref ref="CONSOLE" />
+    <root level="ERROR">  <!-- Change level to ERROR to suppress INFO and lower -->
+        <appender-ref ref="STDOUT" />
     </root>
+
+    <logger name="org.mongodb.driver" level="WARN"/> <!-- Suppress MongoDB logs -->
+    <logger name="net.dv8tion" level="WARN"/>  <!-- Suppress JDA logs -->
 </configuration>

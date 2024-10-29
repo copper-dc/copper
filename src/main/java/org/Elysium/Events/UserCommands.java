@@ -1,5 +1,6 @@
 package org.Elysium.Events;
 
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.Elysium.Database.MongoDB.MongoDBConnector;
@@ -9,16 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class CreateUser extends ListenerAdapter {
+public class UserCommands extends ListenerAdapter {
 
     private final MongoDBConnector mongoDBConnector;
 
-    public CreateUser(MongoDBConnector mongoDBConnector) {
+    public UserCommands(MongoDBConnector mongoDBConnector) {
         this.mongoDBConnector = mongoDBConnector;
     }
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+
         String[] command = event.getMessage().getContentRaw().split(" ");
 
         if (command[0].equalsIgnoreCase("!createuser")) {
@@ -38,12 +40,18 @@ public class CreateUser extends ListenerAdapter {
             // Create the new user
             User newUser = new User(userId, username, currentRegion, elementalAffinity, 0, 100);
             // Add an initial sword to the user's inventory
-            newUser.addWeapon(new Sword("sword_001", "Basic Sword", currentRegion)); // Adjusted constructor
+            newUser.addWeapon(new Sword("sword_001", "Basic Sword", currentRegion));
 
             // Store user in the corresponding region collection
-            mongoDBConnector.insertUser(newUser, currentCollection);
+            String message = mongoDBConnector.insertUser(newUser, currentCollection);
 
-            event.getChannel().sendMessage("User created successfully! Welcome, " + event.getAuthor().getAsMention() + " to " + currentRegion + "!").queue();
+            if(message==null) {
+                event.getChannel().sendMessage("User created successfully! Welcome, " + event.getAuthor().getAsMention() + " to `" + currentRegion + "`!").queue();
+            }
+
+            event.getChannel().sendMessage(event.getAuthor().getAsMention()+message).queue();
         }
     }
+
+
 }
