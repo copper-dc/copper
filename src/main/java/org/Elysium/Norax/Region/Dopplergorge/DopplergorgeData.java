@@ -1,6 +1,6 @@
-package org.Elysium.Database.Norax.Region.Dopplergorge;
+package org.Elysium.Norax.Region.Dopplergorge;
 
-import org.Elysium.Database.Norax.Region.RegionData;
+import org.Elysium.Norax.Region.RegionData;
 
 public class DopplergorgeData implements RegionData {
     @Override

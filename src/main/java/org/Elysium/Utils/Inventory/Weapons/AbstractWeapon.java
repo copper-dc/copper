@@ -1,22 +1,20 @@
-package org.Elysium.Database.Inventory.Weapons;
+package org.Elysium.Utils.Inventory.Weapons;
 
-import org.Elysium.Database.Inventory.Inventory;
+public abstract class AbstractWeapon implements Weapon {
+    protected final String itemId;
+    protected final String name;
+    protected final String regionOrigin;
+    protected final String type;
+    protected int damage;
+    protected int level;
 
-public class Sword implements Weapon, Inventory {
-    private final String itemId;
-    private final String name;
-    private final String regionOrigin;
-    private final String type;
-    private int damage;
-    private int level;
-
-    public Sword(String itemId, String name, String regionOrigin, String type) {
+    public AbstractWeapon(String itemId, String name, String regionOrigin, String type, int damage, int level) {
         this.itemId = itemId;
         this.name = name;
         this.regionOrigin = regionOrigin;
         this.type = type;
-        this.damage = 25;
-        this.level = 1;
+        this.damage = damage;
+        this.level = level;
     }
 
     @Override
@@ -57,4 +55,3 @@ public class Sword implements Weapon, Inventory {
         this.level++;
     }
 }
-

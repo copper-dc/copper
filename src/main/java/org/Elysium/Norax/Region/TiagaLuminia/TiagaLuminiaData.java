@@ -1,6 +1,7 @@
-package org.Elysium.Database.Norax.Region.TiagaLuminia;
+package org.Elysium.Norax.Region.TiagaLuminia;
 
-import org.Elysium.Database.Norax.Region.RegionData;
+
+import org.Elysium.Norax.Region.RegionData;
 
 public class TiagaLuminiaData implements RegionData {
     @Override

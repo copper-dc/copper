@@ -1,6 +1,7 @@
-package org.Elysium.Database.Norax.Region.StarliCove;
+package org.Elysium.Norax.Region.StarliCove;
 
-import org.Elysium.Database.Norax.Region.RegionData;
+
+import org.Elysium.Norax.Region.RegionData;
 
 public class StarliCoveData implements RegionData {
     @Override

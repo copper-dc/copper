@@ -1,4 +1,4 @@
-package org.Elysium.Database.Norax.Region;
+package org.Elysium.Norax.Region;
 
 public interface RegionData {
     String getRegionId();

@@ -1,6 +1,7 @@
-package org.Elysium.Database.Norax.Region.EternalSands;
+package org.Elysium.Norax.Region.EternalSands;
 
-import org.Elysium.Database.Norax.Region.RegionData;
+
+import org.Elysium.Norax.Region.RegionData;
 
 public class EternalSandsData implements RegionData {
     @Override
